@@ -1,15 +1,15 @@
 import axios from "axios";
-import { customAlphabet } from "nanoid";
+import { ObjectId } from "mongodb";
+
 import { getDb } from "../db/mongodb";
 
 import { Link } from "../models/Link.schema";
 import { Visit } from "../models/Visit.schema";
 
-const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+import { generatePassword, generateSlug } from "./utils";
 
 export const createLink = async (destination: string): Promise<Link> => {
-	const nanoid = customAlphabet(dict, 10);
-	const slug = nanoid();
+	const slug = generateSlug();
 
 	const linkObj: Link = {
 		slug,
@@ -27,6 +27,24 @@ export const createLink = async (destination: string): Promise<Link> => {
 	}
 };
 
+export const enableAdministration = async (linkId: ObjectId): Promise<Link> => {
+	const password = generatePassword();
+
+	const updatedLink = await getDb()
+		.collection("links")
+		.findOneAndUpdate(
+			{ _id: new ObjectId(linkId), administration: false },
+			{
+				$set: {
+					administration: true,
+					password: password,
+				},
+			},
+			{ returnDocument: "after" }
+		);
+	return updatedLink.value as Link;
+};
+
 export const fetchLinkAndVisit = async (slug: string): Promise<Link> => {
 	const link = await getDb()
 		.collection("links")
@@ -34,6 +52,11 @@ export const fetchLinkAndVisit = async (slug: string): Promise<Link> => {
 	return link.value as Link;
 };
 
+/**
+ * Adds a Visit to Database
+ * @param {Link} link - object containing the visited Link with _id.
+ * @param {string} clientIP - Client's public IP address.
+ */
 export const addVisit = async (link: Link, clientIP: string) => {
 	try {
 		const { data } = await axios.get(

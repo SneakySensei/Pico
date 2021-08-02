@@ -1,9 +1,13 @@
 import { Router } from "express";
 
-import { shrinkurl } from "../controllers/home.controllers";
+import {
+	handleShrinkurl,
+	handleEnableAnalytics,
+} from "../controllers/home.controllers";
 
 const router = Router();
 
-router.post("/shrinkurl", shrinkurl);
+router.post("/shrinkurl", handleShrinkurl);
+router.post("/enableanalytics", handleEnableAnalytics);
 
 export default router;

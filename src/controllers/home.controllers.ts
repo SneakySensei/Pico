@@ -1,13 +1,16 @@
 import { Request, Response, NextFunction } from "express";
+import { ObjectId } from "mongodb";
 
 import {
 	addVisit,
 	createLink,
+	enableAdministration,
 	fetchLinkAndVisit,
 } from "../services/home.services";
+
 import { isCrawler } from "../services/utils";
 
-export const shrinkurl = async (
+export const handleShrinkurl = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
@@ -15,6 +18,24 @@ export const shrinkurl = async (
 	const { url } = req.body;
 	const link = await createLink(url);
 	res.json(link);
+};
+
+// ! MIGHT BE VULNERABLE TO BRUTEFORCE _id ATTACKS. NEEDS REFACTORING.
+export const handleEnableAnalytics = async (
+	req: Request,
+	res: Response,
+	next: NextFunction
+) => {
+	const linkId: ObjectId = req.body.linkId;
+	const updatedLink = await enableAdministration(linkId);
+	console.log(updatedLink);
+	if (updatedLink) {
+		res.json(updatedLink);
+	} else {
+		res.status(406).json({
+			message: "Link not found or administration is already turned on!",
+		});
+	}
 };
 
 export const handleLinkVisit = async (
