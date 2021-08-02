@@ -15,7 +15,7 @@ app.use(express.json());
 
 app.use((req, res, next) => {
 	if (process.env.NODE_ENV === "development") {
-		req.headers["X-Forwarded-For"] = process.env.TEST_IP;
+		req.headers["x-forwarded-for"] = process.env.TEST_IP;
 	}
 	next();
 });
