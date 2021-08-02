@@ -5,6 +5,7 @@ import {
 	createLink,
 	fetchLinkAndVisit,
 } from "../services/home.services";
+import { isCrawler } from "../services/utils";
 
 export const shrinkurl = async (
 	req: Request,
@@ -31,7 +32,7 @@ export const handleLinkVisit = async (
 
 	const link = await fetchLinkAndVisit(slug);
 	if (link) {
-		if (link.administration) {
+		if (link.administration && !isCrawler(req.get("User-Agent")!)) {
 			await addVisit(link, clientIP);
 		}
 		res.redirect(link.destination);
