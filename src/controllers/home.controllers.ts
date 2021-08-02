@@ -1,6 +1,10 @@
 import { Request, Response, NextFunction } from "express";
 
-import { addVisit, createLink, fetchLinkAndVisit } from "../services/home.services";
+import {
+	addVisit,
+	createLink,
+	fetchLinkAndVisit,
+} from "../services/home.services";
 
 export const shrinkurl = async (
 	req: Request,
@@ -18,15 +22,17 @@ export const handleLinkVisit = async (
 	next: NextFunction
 ) => {
 	const { slug } = req.params;
-	
+
 	// Extract client IP
-	const xForwardedFor = req.headers["X-Forwarded-For"]!;
-	const clientIP: string = Array.isArray(xForwardedFor) ? xForwardedFor[0] : xForwardedFor;
+	const xForwardedFor = req.get("X-Forwarded-For")!;
+	const clientIP: string = Array.isArray(xForwardedFor)
+		? xForwardedFor[0]
+		: xForwardedFor;
 
 	const link = await fetchLinkAndVisit(slug);
 	if (link) {
 		if (link.administration) {
-			await addVisit(link, clientIP)
+			await addVisit(link, clientIP);
 		}
 		res.redirect(link.destination);
 	} else {
