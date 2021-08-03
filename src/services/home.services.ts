@@ -1,5 +1,6 @@
 import axios from "axios";
 import { ObjectId } from "mongodb";
+import bcrypt from "bcrypt";
 
 import { getDb } from "../db/mongodb";
 
@@ -29,20 +30,25 @@ export const createLink = async (destination: string): Promise<Link> => {
 
 export const enableAdministration = async (linkId: ObjectId): Promise<Link> => {
 	const password = generatePassword();
+	const hashedPassword = await bcrypt.hash(password, 10);
 
-	const updatedLink = await getDb()
+	const res = await getDb()
 		.collection("links")
 		.findOneAndUpdate(
 			{ _id: new ObjectId(linkId), administration: false },
 			{
 				$set: {
 					administration: true,
-					password: password,
+					password: hashedPassword,
 				},
 			},
 			{ returnDocument: "after" }
 		);
-	return updatedLink.value as Link;
+	const updatedLink: Link = res.value as Link;
+	if (updatedLink) {
+		updatedLink.password = password;
+	}
+	return updatedLink;
 };
 
 export const fetchLinkAndVisit = async (slug: string): Promise<Link> => {
