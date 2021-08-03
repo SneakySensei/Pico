@@ -8,6 +8,6 @@ import {
 const router = Router();
 
 router.post("/shrinkurl", handleShrinkurl);
-router.post("/enableanalytics", handleEnableAnalytics);
+router.put("/enableanalytics", handleEnableAnalytics);
 
 export default router;
