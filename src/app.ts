@@ -6,7 +6,7 @@ import cors from "cors";
 
 import { initializeMongoDBClient } from "./db/mongodb";
 
-import { homeRoutes } from "./routes";
+import { homeRoutes, adminRoutes } from "./routes";
 import { handleLinkVisit } from "./controllers/home.controllers";
 
 const app: express.Application = express();
@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 
 // TODO /api routes
 app.use("/api", cors(), homeRoutes);
+app.use("/api/admin", cors(), adminRoutes);
 
 // TODO /:slug route
 app.get("/:slug", handleLinkVisit);
