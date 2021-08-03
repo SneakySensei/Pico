@@ -9,7 +9,7 @@ import {
 const router = Router();
 
 router.post("/login", handleLogin);
-router.post("/editSlug", handleEditSlug);
-router.post("/editDestination", handleEditDestination);
+router.put("/editSlug", handleEditSlug);
+router.put("/editDestination", handleEditDestination);
 
 export default router;

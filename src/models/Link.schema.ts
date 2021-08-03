@@ -1,4 +1,5 @@
 import { ObjectId } from "mongodb";
+import { Visit } from "./Visit.schema";
 
 export interface Link {
 	_id?: ObjectId;
@@ -8,4 +9,10 @@ export interface Link {
 	password?: string;
 	lastVisit: Date;
 	createdAt: Date;
+}
+
+export interface LinkWithAnalytics {
+	slug: string;
+	destination: string;
+	visits: Visit[];
 }
