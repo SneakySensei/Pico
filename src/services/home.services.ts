@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ObjectId } from "mongodb";
+import { ObjectId, WriteConcernError, WriteError } from "mongodb";
 import bcrypt from "bcrypt";
 
 import { getDb } from "../db/mongodb";
@@ -8,8 +8,11 @@ import { Link } from "../models/Link.schema";
 import { Visit } from "../models/Visit.schema";
 
 import { generatePassword, generateSlug } from "./utils";
+import { errors } from "../controllers/errors.controller";
 
-export const createLink = async (destination: string): Promise<Link> => {
+export const createLink = async (
+	destination: string
+): Promise<Link | undefined> => {
 	const slug = generateSlug();
 
 	const linkObj: Link = {
@@ -24,7 +27,12 @@ export const createLink = async (destination: string): Promise<Link> => {
 		const link = await getDb().collection("links").insertOne(linkObj);
 		return { ...linkObj, _id: link.insertedId } as Link;
 	} catch (err) {
-		return await createLink(destination);
+		if (err.code === 11000) {
+			// Handle duplicate slug
+			return await createLink(destination);
+		} else {
+			throw err; // NOTE Will throw 500 Internal Server Error
+		}
 	}
 };
 
@@ -44,18 +52,23 @@ export const enableAdministration = async (linkId: ObjectId): Promise<Link> => {
 			},
 			{ returnDocument: "after" }
 		);
-	const updatedLink: Link = res.value as Link;
-	if (updatedLink) {
-		updatedLink.password = password;
+
+	if (res.value) {
+		return res.value as Link;
+	} else {
+		throw errors.HOME_ENABLE_ADMINISTRATION_ERROR;
 	}
-	return updatedLink;
 };
 
 export const fetchLinkAndVisit = async (slug: string): Promise<Link> => {
-	const link = await getDb()
+	const res = await getDb()
 		.collection("links")
 		.findOneAndUpdate({ slug: slug }, { $set: { lastVisit: new Date() } });
-	return link.value as Link;
+	if (res.value) {
+		return res.value as Link;
+	} else {
+		throw errors.HOME_LINK_NOT_FOUND;
+	}
 };
 
 /**
@@ -64,21 +77,17 @@ export const fetchLinkAndVisit = async (slug: string): Promise<Link> => {
  * @param {string} clientIP - Client's public IP address.
  */
 export const addVisit = async (link: Link, clientIP: string) => {
-	try {
-		const { data } = await axios.get(
-			`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IPGEOLOCATION_API_KEY}&ip=${clientIP}`
-		);
-		const latitude: string = data.latitude;
-		const longitude: string = data.longitude;
+	const { data } = await axios.get(
+		`https://api.ipgeolocation.io/ipgeo?apiKey=${process.env.IPGEOLOCATION_API_KEY}&ip=${clientIP}`
+	);
+	const latitude: string = data.latitude;
+	const longitude: string = data.longitude;
 
-		const visitObj: Visit = {
-			linkId: link._id!,
-			createdAt: new Date(),
-			latitude: latitude,
-			longitude: longitude,
-		};
-		await getDb().collection("visits").insertOne(visitObj);
-	} catch (err) {
-		console.log(err);
-	}
+	const visitObj: Visit = {
+		linkId: link._id!,
+		createdAt: new Date(),
+		latitude: latitude,
+		longitude: longitude,
+	};
+	await getDb().collection("visits").insertOne(visitObj);
 };

@@ -8,6 +8,7 @@ import { initializeMongoDBClient } from "./db/mongodb";
 
 import { homeRoutes, adminRoutes } from "./routes";
 import { handleLinkVisit } from "./controllers/home.controllers";
+import { errorHandler } from "./controllers/errors.controller";
 
 const app: express.Application = express();
 
@@ -20,13 +21,18 @@ app.use((req, res, next) => {
 	next();
 });
 
-// TODO /api routes
+// NOTE /api routes
 app.use("/api", cors(), homeRoutes);
 app.use("/api/admin", cors(), adminRoutes);
 
-// TODO /:slug route
+// NOTE /:slug route
 app.get("/:slug", handleLinkVisit);
+
 // TODO / client route
+// TODO /admin/:slug client route
+
+// TODO 404 handler
+app.use(errorHandler);
 
 Promise.all([initializeMongoDBClient()])
 	.then(() => {

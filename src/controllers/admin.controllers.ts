@@ -16,16 +16,7 @@ export const handleLogin = async (
 		const linkWithAnalytics = await fetchAnalytics(slug, password);
 		res.json(linkWithAnalytics);
 	} catch (err) {
-		switch (err) {
-			case "Incorrect password":
-				res.status(401).json({ message: "Wrong Password" });
-				break;
-			case "Invalid slug or administration not enabled":
-				res
-					.status(404)
-					.json({ message: "Invalid slug or administration not enabled" });
-				break;
-		}
+		next(err);
 	}
 };
 
@@ -37,10 +28,14 @@ export const handleEditSlug = async (
 	const { slug } = req.params;
 	const { password, newSlug } = req.body;
 
-	const newLink = await updateSlug(slug, password, newSlug);
-	delete newLink._id;
-	delete newLink.password;
-	res.json(newLink);
+	try {
+		const newLink = await updateSlug(slug, password, newSlug);
+		delete newLink._id;
+		delete newLink.password;
+		res.json(newLink);
+	} catch (err) {
+		next(err);
+	}
 };
 
 export const handleEditDestination = async (
@@ -51,8 +46,12 @@ export const handleEditDestination = async (
 	const { slug } = req.params;
 	const { password, newDestination } = req.body;
 
-	const newLink = await updateDestination(slug, password, newDestination);
-	delete newLink._id;
-	delete newLink.password;
-	res.json(newLink);
+	try {
+		const newLink = await updateDestination(slug, password, newDestination);
+		delete newLink._id;
+		delete newLink.password;
+		res.json(newLink);
+	} catch (err) {
+		next(err);
+	}
 };

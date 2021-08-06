@@ -10,31 +10,34 @@ import {
 
 import { isCrawler } from "../services/utils";
 
-export const handleShrinkurl = async (
+export const handleShrinkUrl = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	const { url } = req.body;
-	const link = await createLink(url);
-	res.json(link);
+
+	try {
+		const link = await createLink(url);
+		res.json(link);
+	} catch (err) {
+		next(err);
+	}
 };
 
-// ! MIGHT BE VULNERABLE TO BRUTEFORCE _id ATTACKS. NEEDS REFACTORING.
+// NOTE Might be vulnerable to bruteforce _id attacks. Visit Later.
 export const handleEnableAnalytics = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
 	const linkId: ObjectId = req.body.linkId;
-	const updatedLink = await enableAdministration(linkId);
-	console.log(updatedLink);
-	if (updatedLink) {
+
+	try {
+		const updatedLink = await enableAdministration(linkId);
 		res.json(updatedLink);
-	} else {
-		res.status(406).json({
-			message: "Link not found or administration is already turned on!",
-		});
+	} catch (err) {
+		next(err);
 	}
 };
 
@@ -51,13 +54,17 @@ export const handleLinkVisit = async (
 		? xForwardedFor[0]
 		: xForwardedFor;
 
-	const link = await fetchLinkAndVisit(slug);
-	if (link) {
-		if (link.administration && !isCrawler(req.get("User-Agent")!)) {
-			await addVisit(link, clientIP);
+	try {
+		const link = await fetchLinkAndVisit(slug);
+		if (link) {
+			if (link.administration && !isCrawler(req.get("User-Agent")!)) {
+				await addVisit(link, clientIP);
+			}
+			res.redirect(link.destination);
+		} else {
+			res.status(404).send("404 Link not found!");
 		}
-		res.redirect(link.destination);
-	} else {
-		res.status(404).send("404 Link not found!");
+	} catch (err) {
+		next(err);
 	}
 };
