@@ -19,13 +19,15 @@
 	},
 	"homepage": "https://github.com/SneakySensei/Pico#readme",
 	"dependencies": {
+		"@types/yup": "^0.29.13",
 		"axios": "^0.21.1",
 		"bcrypt": "^5.0.1",
 		"cors": "^2.8.5",
 		"dotenv": "^10.0.0",
 		"express": "^4.17.1",
 		"mongodb": "^4.0.1",
-		"nanoid": "^3.1.23"
+		"nanoid": "^3.1.23",
+		"yup": "^0.32.9"
 	},
 	"devDependencies": {
 		"@types/bcrypt": "^5.0.0",
