@@ -4,10 +4,14 @@ import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 
 const GlobalStyles = createGlobalStyle`
+	*, ::before, ::after {
+		box-sizing: border-box !important;
+	}
+	
   body {
     margin: 0;
-    color: #FFFFFF;
-    font-family: sans-serif;
+    color: #EFEFEF;
+		font-family: "Titillium Web", sans-serif;
 		background-color: #121013;
   }
 `;
