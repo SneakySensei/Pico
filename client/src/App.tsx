@@ -6,14 +6,15 @@ import Admin from "./pages/Admin";
 const GlobalStyles = createGlobalStyle`
 	*, ::before, ::after {
 		box-sizing: border-box !important;
+		font-family: "Nunito", sans-serif;
 	}
 	
   body {
     margin: 0;
     color: #EFEFEF;
-		font-family: "Titillium Web", sans-serif;
 		background-color: #121013;
-  }
+		
+	  }
 `;
 
 function App() {
