@@ -7,6 +7,7 @@ import {
 	handleEditDestination,
 } from "../controllers/admin.controllers";
 import validateRequest from "../middlewares/validateRequest";
+import { slugRegEx, urlRegEx } from "../services/utils";
 
 const router = Router();
 
@@ -14,7 +15,7 @@ const slugSchema = yup
 	.string()
 	.trim()
 	.required("Slug is a required field!")
-	.matches(/^([a-zA-Z0-9]+([-_]*[a-zA-Z0-9]+)*)$/, "Not a valid slug!");
+	.matches(slugRegEx, "Not a valid slug!");
 
 const handleLoginSchema = yup.object().shape({
 	slug: slugSchema,
@@ -42,10 +43,7 @@ const handleEditDestinationSchema = yup.object().shape({
 		.string()
 		.trim()
 		.required("Please enter the new destination for the requested update!")
-		.matches(
-			/^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/i,
-			"New destination must be a valid URL!"
-		),
+		.matches(urlRegEx, "New destination must be a valid URL!"),
 	password: yup.string().trim().required("Password is a required field!"),
 });
 

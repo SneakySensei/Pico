@@ -7,6 +7,7 @@ import {
 	handleEnableAnalytics,
 } from "../controllers/home.controllers";
 import validateRequest from "../middlewares/validateRequest";
+import { urlRegEx } from "../services/utils";
 
 const router = Router();
 
@@ -15,10 +16,7 @@ const handleShrinkUrlSchema = yup.object().shape({
 		.string()
 		.trim()
 		.required("URL is a required field!")
-		.matches(
-			/^[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)$/i,
-			"Not a valid URL!"
-		),
+		.matches(urlRegEx, "Not a valid URL!"),
 });
 
 const handleEnableAnalyticsSchema = yup.object().shape({
