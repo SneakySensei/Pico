@@ -1,11 +1,12 @@
 import { useState } from "react";
 import styled from "styled-components";
+import axios from "axios";
 
 import { CreateLinkInput } from "components/home";
-import { Header, OutlineButton } from "components/shared";
+import { Header, HorizontalLoader, OutlineButton } from "components/shared";
 
 import { urlRegEx } from "services/utils";
-import { createShortLink } from "services/apiService";
+
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
 
 const HomeContainer = styled.main`
@@ -31,6 +32,41 @@ const HomeContainer = styled.main`
 		height: auto;
 		z-index: -10;
 	}
+
+	.controls {
+		display: flex;
+		margin-top: 2rem;
+
+		.admin-btn {
+			border: none;
+			outline: none;
+			position: relative;
+			font-size: 18pt;
+			font-weight: bold;
+			color: #efefef;
+			background: linear-gradient(to right, #cc208e, #6713d2);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			cursor: pointer;
+			&::before {
+				content: "";
+				display: block;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				height: 2px;
+				background: linear-gradient(to right, #cc208e, #6713d2);
+				transform: scaleX(0);
+				opacity: 0;
+				transition: transform 200ms ease, opacity 200ms ease;
+			}
+			&:hover::before {
+				transform: scaleX(1);
+				opacity: 1;
+			}
+		}
+	}
 `;
 
 const Home = () => {
@@ -49,14 +85,33 @@ const Home = () => {
 		});
 	};
 
-	const handleShrink = async (e) => {
+	const handleShrink = (e) => {
 		setShortUrl((shortUrl) => ({ ...shortUrl, loading: true }));
-		const res = await createShortLink(urlInput.value);
-		console.log(res);
-		if (res) {
-			setShortUrl((shortUrl) => ({ loading: false, data: res }));
-		}
-		console.log(res);
+		axios
+			.post("/api/shrinkurl", { url: urlInput.value })
+			// new Promise((resolve) =>
+			// 	setTimeout(
+			// 		() =>
+			// 			resolve({
+			// 				data: {
+			// 					slug: "testingurl",
+			// 					_id: "sadasdasgasdguiosdghwuidghwuisdghuiweui",
+			// 				},
+			// 			}),
+			// 		3000
+			// 	)
+			// )
+			.then((res) => {
+				setShortUrl((shortUrl) => ({ loading: false, data: res.data }));
+			})
+			.catch((err) => {
+				console.log(err);
+				setShortUrl((shortUrl) => ({ ...shortUrl, loading: false }));
+			});
+	};
+
+	const handleEnableAdministration = (e) => {
+		console.log(shortUrl.data.slug, shortUrl.data._id);
 	};
 
 	return (
@@ -64,20 +119,31 @@ const Home = () => {
 			<Header />
 			<main>
 				<CreateLinkInput
-					url={urlInput.value}
-					disabled={shortUrl.data !== null}
+					valule={urlInput.value}
+					loading={shortUrl.loading}
+					shortUrl={shortUrl.data}
 					onChange={handleInputChange}
 					onSubmit={handleShrink}
 				/>
-				<OutlineButton
-					disabled={!urlInput.valid}
-					// loading={}
-					theme="primary"
-					style={{ marginTop: "2rem" }}
-					onClick={handleShrink}
-				>
-					Shrink
-				</OutlineButton>
+				<section className="controls">
+					{shortUrl.loading ? (
+						<HorizontalLoader style={{ marginTop: "2rem" }} />
+					) : shortUrl.data === null ? (
+						<OutlineButton
+							disabled={!urlInput.valid}
+							loading={true}
+							theme="primary"
+							style={{ marginTop: "2rem" }}
+							onClick={handleShrink}
+						>
+							Shrink
+						</OutlineButton>
+					) : (
+						<button className="admin-btn" onClick={handleEnableAdministration}>
+							Enable Administration
+						</button>
+					)}
+				</section>
 			</main>
 			<LinkGlyph className="link-bg" />
 		</HomeContainer>

@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
+
+import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
 
 const InputContainer = styled.div`
 	background-color: #1b1c25;
@@ -11,6 +13,7 @@ const InputContainer = styled.div`
 
 	&::before {
 		content: "";
+		z-index: 5;
 		pointer-events: none;
 		position: absolute;
 		inset: 0;
@@ -30,7 +33,6 @@ const InputContainer = styled.div`
 	&:focus-within {
 		box-shadow: rgba(0, 0, 0, 1) 0px 3px 8px;
 		&::before {
-			/* filter: saturate(1.2); */
 			opacity: 1;
 			background-position: right;
 		}
@@ -46,13 +48,94 @@ const InputContainer = styled.div`
 			color: #37394a;
 		}
 	}
-`;
 
-const CreateLinkInput = ({ url, onChange, onSubmit, disabled }) => {
+	.copy-btn {
+		cursor: pointer;
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		height: 100%;
+		width: 48px;
+		padding: 0.6rem;
+		background: linear-gradient(to right, #1b1c2400 0%, #1b1c24 25%);
+		opacity: ${(props) => (props.isShrunk ? 1 : 0)};
+		transition: opacity 200ms 1200ms ease, transform 200ms ease;
+
+		&:active {
+			transform: scale(0.8);
+		}
+	}
+`;
+const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+const CreateLinkInput = ({ url, onChange, onSubmit, shortUrl, loading }) => {
+	const interval = useRef(null);
+	const inputRef = useRef(null);
+
+	// NOTE COOL HACKER ANIMATION 🔥🔥🔥
+	useEffect(() => {
+		if (!loading) {
+			clearInterval(interval.current);
+
+			// If data has arrived, begin stopping the hacker animation gracefully
+			if (shortUrl !== null) {
+				let count = 0;
+
+				// which char position to stop next
+				let nextToShow = Array.from(Array(shortUrl.slug.length), (_, i) => i);
+				nextToShow.sort(() => Math.random() - 0.5);
+
+				// all chars that have stopped
+				let charsVisible = [];
+
+				interval.current = setInterval(() => {
+					let crypticSlug =
+						(window.location.hostname === "localhost"
+							? "pico.snehil.dev"
+							: window.location.hostname) + "/";
+
+					if (count % 1 === 0) {
+						charsVisible.push(nextToShow.shift());
+					}
+
+					for (let i = 0; i < shortUrl.slug.length; i++) {
+						if (charsVisible.includes(i)) {
+							crypticSlug += shortUrl.slug[i];
+						} else {
+							crypticSlug += dict[Math.floor(Math.random() * dict.length)];
+						}
+					}
+
+					inputRef.current.value = crypticSlug;
+
+					count += 0.5; // Controls speed of stopping.
+					if (count === shortUrl.slug.length) {
+						clearInterval(interval.current);
+					}
+				}, 70);
+			}
+		} else {
+			// Animation starts
+			interval.current = setInterval(() => {
+				let crypticSlug =
+					(window.location.hostname === "localhost"
+						? "pico.snehil.dev"
+						: window.location.hostname) + "/";
+				for (let i = 0; i < 10; i++) {
+					crypticSlug += dict[Math.floor(Math.random() * dict.length)];
+				}
+				inputRef.current.value = crypticSlug;
+			}, 70);
+		}
+
+		// return ()=>{clearInterval(interval.current)}
+	}, [loading]);
+
 	return (
-		<InputContainer>
+		<InputContainer isShrunk={shortUrl !== null}>
 			<input
-				disabled={disabled}
+				ref={inputRef}
+				disabled={shortUrl !== null}
 				value={url}
 				onChange={onChange}
 				onKeyDown={(e) => {
@@ -62,6 +145,7 @@ const CreateLinkInput = ({ url, onChange, onSubmit, disabled }) => {
 				}}
 				placeholder="https://"
 			/>
+			<CopyIcon className="copy-btn" />
 		</InputContainer>
 	);
 };
