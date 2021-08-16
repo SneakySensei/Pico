@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-const OutlineButton = styled.button`
+const OutlineButtonContainer = styled.button`
 	padding: 0.5rem 1.75rem;
 	background-color: transparent;
 	outline: none;
@@ -44,5 +44,13 @@ const OutlineButton = styled.button`
 		transform: translateY(8px);
 	}
 `;
+
+const OutlineButton = ({ children, disabled, style, onClick }) => {
+	return (
+		<OutlineButtonContainer disabled={disabled} style={style} onClick={onClick}>
+			{children}
+		</OutlineButtonContainer>
+	);
+};
 
 export default OutlineButton;
