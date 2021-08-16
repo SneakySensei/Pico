@@ -1,10 +1,5 @@
 import React from "react";
-import styled, { ThemedStyledFunction } from "styled-components";
-
-export interface OutlineButtonProps
-	extends ThemedStyledFunction<"button", any, {}, never> {
-	theme: "primary" | "danger";
-}
+import styled from "styled-components";
 
 const OutlineButton = styled.button`
 	padding: 0.5rem 1.75rem;

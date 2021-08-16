@@ -48,15 +48,20 @@ const InputContainer = styled.div`
 	}
 `;
 
-export interface CreateLinkInputProps {
-	url: string;
-	onChange: React.ChangeEventHandler<HTMLInputElement>;
-}
-
-const CreateLinkInput = ({ url, onChange }: CreateLinkInputProps) => {
+const CreateLinkInput = ({ url, onChange, onSubmit, disabled }) => {
 	return (
 		<InputContainer>
-			<input onChange={onChange} placeholder="https://" />
+			<input
+				disabled={disabled}
+				value={url}
+				onChange={onChange}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						onSubmit();
+					}
+				}}
+				placeholder="https://"
+			/>
 		</InputContainer>
 	);
 };

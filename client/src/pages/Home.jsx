@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { CreateLinkInput } from "components/home";
 import { Header, OutlineButton } from "components/shared";
 
-import { urlRegEx } from "utils";
-
+import { urlRegEx } from "services/utils";
+import { createShortLink } from "services/apiService";
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
 
 const HomeContainer = styled.main`
@@ -34,31 +34,44 @@ const HomeContainer = styled.main`
 `;
 
 const Home = () => {
-	const [urlInput, setUrlInput] = useState<{ value: string; valid: boolean }>({
+	const [urlInput, setUrlInput] = useState({
 		value: "",
 		valid: false,
 	});
+	const [shortUrl, setShortUrl] = useState({ loading: false, data: null });
 
-	console.log(urlInput);
+	console.log(shortUrl);
 
-	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (e) => {
 		setUrlInput({
 			value: e.target.value,
 			valid: urlRegEx.test(e.target.value),
 		});
 	};
 
-	const handleShrink = (e: React.MouseEvent<HTMLButtonElement>) => {
-		console.log(urlInput.value);
+	const handleShrink = async (e) => {
+		setShortUrl((shortUrl) => ({ ...shortUrl, loading: true }));
+		const res = await createShortLink(urlInput.value);
+		console.log(res);
+		if (res) {
+			setShortUrl((shortUrl) => ({ loading: false, data: res }));
+		}
+		console.log(res);
 	};
 
 	return (
 		<HomeContainer>
 			<Header />
 			<main>
-				<CreateLinkInput url={urlInput.value} onChange={handleInputChange} />
+				<CreateLinkInput
+					url={urlInput.value}
+					disabled={shortUrl.data !== null}
+					onChange={handleInputChange}
+					onSubmit={handleShrink}
+				/>
 				<OutlineButton
 					disabled={!urlInput.valid}
+					// loading={}
 					theme="primary"
 					style={{ marginTop: "2rem" }}
 					onClick={handleShrink}
