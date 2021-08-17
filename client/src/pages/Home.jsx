@@ -106,7 +106,7 @@ const Home = () => {
 			})
 			.catch((err) => {
 				console.log(err);
-				setShortUrl((shortUrl) => ({ ...shortUrl, loading: false }));
+				setShortUrl((shortUrl) => ({ shortUrl: null, loading: false }));
 			});
 	};
 

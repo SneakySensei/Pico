@@ -67,6 +67,20 @@ const InputContainer = styled.div`
 		}
 	}
 `;
+
+const Toast = styled.article`
+	position: fixed;
+	left: 50%;
+	transform: translateX(-50%);
+	bottom: 4rem;
+	background: #44444488;
+	color: #efefef;
+	font-size: 14pt;
+	padding: 0.5rem 1rem;
+	border-radius: 999px;
+	pointer-events: none;
+`;
+
 const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 const CreateLinkInput = ({ url, onChange, onSubmit, shortUrl, loading }) => {
 	const interval = useRef(null);
@@ -131,22 +145,51 @@ const CreateLinkInput = ({ url, onChange, onSubmit, shortUrl, loading }) => {
 		// return ()=>{clearInterval(interval.current)}
 	}, [loading]);
 
+	const copyUrlToClipboard = (e) => {
+		// inputRef.current.select();
+		// inputRef.current.setSelectionRange(0, 99999);
+		// document.execCommand("copy");
+		navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
+			if (result.state === "granted" || result.state === "prompt") {
+				navigator.clipboard
+					.writeText(
+						(window.location.hostname === "localhost"
+							? "pico.snehil.dev"
+							: window.location.hostname) +
+							"/" +
+							shortUrl.slug
+					)
+					.then(
+						function () {
+							/* clipboard successfully set */
+						},
+						function () {
+							/* clipboard write failed */
+						}
+					);
+			}
+		});
+	};
+
 	return (
-		<InputContainer isShrunk={shortUrl !== null}>
-			<input
-				ref={inputRef}
-				disabled={shortUrl !== null}
-				value={url}
-				onChange={onChange}
-				onKeyDown={(e) => {
-					if (e.key === "Enter") {
-						onSubmit();
-					}
-				}}
-				placeholder="https://"
-			/>
-			<CopyIcon className="copy-btn" />
-		</InputContainer>
+		<>
+			<InputContainer isShrunk={shortUrl !== null}>
+				<input
+					ref={inputRef}
+					disabled={shortUrl !== null}
+					value={url}
+					onChange={onChange}
+					onKeyDown={(e) => {
+						if (e.key === "Enter") {
+							onSubmit();
+						}
+					}}
+					placeholder="https://"
+				/>
+				<CopyIcon className="copy-btn" onClick={copyUrlToClipboard} />
+			</InputContainer>
+			{/* <Toast>Copied to Clipboard!</Toast> */}
+		</>
 	);
 };
 
