@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import Transition from "react-transition-group/Transition";
 
 import { CreateLinkInput } from "components/home";
 import { Header, HorizontalLoader, OutlineButton } from "components/shared";
@@ -34,49 +35,85 @@ const HomeContainer = styled.main`
 	}
 
 	.controls {
-		display: flex;
+		/* display: flex; */
 		margin-top: 2rem;
-
-		.admin-btn {
-			border: none;
-			outline: none;
-			position: relative;
-			font-size: 18pt;
-			font-weight: bold;
-			color: #efefef;
-			background: linear-gradient(to right, #cc208e, #6713d2);
-			-webkit-background-clip: text;
-			-webkit-text-fill-color: transparent;
-			cursor: pointer;
-			&::before {
-				content: "";
-				display: block;
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				height: 2px;
-				background: linear-gradient(to right, #cc208e, #6713d2);
-				transform: scaleX(0);
-				opacity: 0;
-				transition: transform 200ms ease, opacity 200ms ease;
-			}
-			&:hover::before {
-				transform: scaleX(1);
-				opacity: 1;
-			}
-		}
+		height: 100px;
 	}
 `;
+
+const GradientTextButton = styled.button`
+	border: none;
+	outline: none;
+	position: relative;
+	font-size: 18pt;
+	font-weight: bold;
+	color: #efefef;
+	background: linear-gradient(to right, #cc208e, #6713d2, #cc208e, #6713d2);
+	background-size: 300% 100%;
+	background-position-x: right;
+
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+	cursor: pointer;
+	&::before {
+		content: "";
+		display: block;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 2px;
+		background: linear-gradient(to right, #cc208e, #6713d2);
+		transform: scaleX(0);
+		opacity: 0;
+		transition: transform 200ms ease, opacity 200ms ease;
+	}
+	&:hover::before {
+		transform: scaleX(1);
+		opacity: 1;
+	}
+`;
+
+const Toast = styled.article`
+	position: fixed;
+	z-index: 50;
+	left: 50%;
+	bottom: 4rem;
+	background: #44444488;
+	color: #efefef;
+	font-size: 12pt;
+	padding: 0.5rem 1rem;
+	border-radius: 2pt;
+	pointer-events: none;
+	transition: opacity 200ms linear, transform 100ms linear;
+`;
+
+const toastTransitionStyles = {
+	entering: { opacity: 1, transform: "translate(-50%, 0rem)" },
+	entered: { opacity: 1, transform: "translate(-50%, 0rem)" },
+	exiting: { opacity: 0, transform: "translate(-50%, 0rem)" },
+	exited: { opacity: 0, transform: "translate(-50%, 3rem)" },
+};
 
 const Home = () => {
 	const [urlInput, setUrlInput] = useState({
 		value: "",
 		valid: false,
 	});
-	const [shortUrl, setShortUrl] = useState({ loading: false, data: null });
+	const [shortUrl, setShortUrl] = useState({
+		loading: false,
+		loadingAdministration: false,
+		data: null,
+	});
 
-	console.log(shortUrl);
+	const [toast, setToast] = useState({
+		visible: false,
+		message: "",
+		type: "info", // info | error | success
+		duration: 1000,
+	});
+
+	const toastTimeout = useRef(null);
 
 	const handleInputChange = (e) => {
 		setUrlInput({
@@ -102,51 +139,103 @@ const Home = () => {
 			// 	)
 			// )
 			.then((res) => {
-				setShortUrl((shortUrl) => ({ loading: false, data: res.data }));
+				setShortUrl((shortUrl) => ({
+					...shortUrl,
+					loading: false,
+					data: res.data,
+				}));
 			})
 			.catch((err) => {
 				console.log(err);
-				setShortUrl((shortUrl) => ({ shortUrl: null, loading: false }));
+				setShortUrl((shortUrl) => ({
+					...shortUrl,
+					shortUrl: null,
+					loading: false,
+				}));
 			});
 	};
 
 	const handleEnableAdministration = (e) => {
-		console.log(shortUrl.data.slug, shortUrl.data._id);
+		setShortUrl((shortUrl) => ({ ...shortUrl, loadingAdministration: true }));
+		axios
+			.put("/api/enableanalytics", { linkId: shortUrl.data._id })
+			.then((res) => {
+				console.log(res.data);
+				setShortUrl((shortUrl) => ({
+					...shortUrl,
+					loadingAdministration: false,
+					data: res.data,
+				}));
+			})
+			.catch((err) => {
+				console.log(err);
+				setShortUrl((shortUrl) => ({
+					...shortUrl,
+					loadingAdministration: false,
+				}));
+			});
+	};
+
+	const handleShowToast = (message, type, duration) => {
+		setToast({ visible: true, message, type, duration });
 	};
 
 	return (
-		<HomeContainer>
-			<Header />
-			<main>
-				<CreateLinkInput
-					valule={urlInput.value}
-					loading={shortUrl.loading}
-					shortUrl={shortUrl.data}
-					onChange={handleInputChange}
-					onSubmit={handleShrink}
-				/>
-				<section className="controls">
-					{shortUrl.loading ? (
-						<HorizontalLoader style={{ marginTop: "2rem" }} />
-					) : shortUrl.data === null ? (
-						<OutlineButton
-							disabled={!urlInput.valid}
-							loading={true}
-							theme="primary"
-							style={{ marginTop: "2rem" }}
-							onClick={handleShrink}
-						>
-							Shrink
-						</OutlineButton>
-					) : (
-						<button className="admin-btn" onClick={handleEnableAdministration}>
-							Enable Administration
-						</button>
-					)}
-				</section>
-			</main>
-			<LinkGlyph className="link-bg" />
-		</HomeContainer>
+		<>
+			<HomeContainer>
+				<Header />
+				<main>
+					<CreateLinkInput
+						valule={urlInput.value}
+						loading={shortUrl.loading}
+						shortUrl={shortUrl.data}
+						onChange={handleInputChange}
+						onSubmit={handleShrink}
+						showToast={handleShowToast}
+					/>
+					<section className="controls">
+						{shortUrl.data === null ? (
+							<OutlineButton
+								disabled={!urlInput.valid}
+								loading={true}
+								theme="primary"
+								onClick={handleShrink}
+							>
+								{shortUrl.loading ? <HorizontalLoader /> : "Shrink"}
+							</OutlineButton>
+						) : (
+							<GradientTextButton
+								className="admin-btn"
+								onClick={handleEnableAdministration}
+							>
+								Enable Administration
+							</GradientTextButton>
+						)}
+					</section>
+				</main>
+				<LinkGlyph className="link-bg" />
+			</HomeContainer>
+			<Transition
+				in={toast.visible}
+				timeout={200}
+				onEntered={() => {
+					toastTimeout.current = setTimeout(
+						() =>
+							setToast((toast) => ({
+								...toast,
+								visible: false,
+							})),
+						toast.duration
+					);
+				}}
+			>
+				{(state) => (
+					<Toast type={toast.type} style={{ ...toastTransitionStyles[state] }}>
+						{toast.message}
+					</Toast>
+				)}
+			</Transition>
+		</>
 	);
 };
 
