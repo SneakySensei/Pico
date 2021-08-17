@@ -5,11 +5,15 @@ import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
 
 const InputContainer = styled.div`
 	background-color: #1b1c25;
-	width: 100%;
 	max-width: 960px;
+	width: 80%;
 	position: relative;
 	border-radius: 4pt;
 	transition: all 200ms ease;
+
+	@media screen and (max-width: 520px) {
+		width: 100%;
+	}
 
 	&::before {
 		content: "";
@@ -21,31 +25,33 @@ const InputContainer = styled.div`
 		padding: 2px;
 		background: linear-gradient(30deg, #6713d2, #cc208e, #6713d2);
 		background-size: 200% 100%;
-		background-position: left;
+		background-position: right;
 		-webkit-mask: linear-gradient(#fff 0 0) content-box,
 			linear-gradient(#fff 0 0);
 		-webkit-mask-composite: destination-out;
 		mask-composite: exclude;
-		opacity: 1;
 		transition: all 600ms cubic-bezier(0.07, 0.71, 0.07, 0.71);
 	}
 
 	&:focus-within {
 		box-shadow: rgba(0, 0, 0, 1) 0px 3px 8px;
 		&::before {
-			opacity: 1;
-			background-position: right;
+			background-position: left;
 		}
 	}
 
 	input {
 		all: unset;
 		width: 100%;
-		font-size: 24px;
+		font-size: 18pt;
 		padding: 0.75rem 1rem;
 
 		&::placeholder {
 			color: #37394a;
+		}
+
+		@media screen and (max-width: 420px) {
+			font-size: 14pt;
 		}
 	}
 
@@ -64,6 +70,10 @@ const InputContainer = styled.div`
 
 		&:active {
 			transform: scale(0.8);
+		}
+
+		@media screen and (max-width: 420px) {
+			width: 44px;
 		}
 	}
 `;
@@ -168,23 +178,21 @@ const CreateLinkInput = ({
 	};
 
 	return (
-		<>
-			<InputContainer isShrunk={shortUrl !== null}>
-				<input
-					ref={inputRef}
-					disabled={shortUrl !== null}
-					value={url}
-					onChange={onChange}
-					onKeyDown={(e) => {
-						if (e.key === "Enter") {
-							onSubmit();
-						}
-					}}
-					placeholder="https://"
-				/>
-				<CopyIcon className="copy-btn" onClick={copyUrlToClipboard} />
-			</InputContainer>
-		</>
+		<InputContainer isShrunk={shortUrl !== null}>
+			<input
+				ref={inputRef}
+				disabled={shortUrl !== null}
+				value={url}
+				onChange={onChange}
+				onKeyDown={(e) => {
+					if (e.key === "Enter") {
+						onSubmit();
+					}
+				}}
+				placeholder="https://"
+			/>
+			<CopyIcon className="copy-btn" onClick={copyUrlToClipboard} />
+		</InputContainer>
 	);
 };
 
