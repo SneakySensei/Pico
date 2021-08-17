@@ -54,7 +54,7 @@ export const enableAdministration = async (linkId: ObjectId): Promise<Link> => {
 		);
 
 	if (res.value) {
-		return res.value as Link;
+		return { ...res.value, password: password } as Link;
 	} else {
 		throw errors.HOME_ENABLE_ADMINISTRATION_ERROR;
 	}
