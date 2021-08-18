@@ -25,7 +25,6 @@ export const fetchAnalytics = async (
 		.toArray();
 
 	if (aggregatedLinks.length > 0) {
-		console.dir(aggregatedLinks);
 		const passwordMatch = await bcrypt.compare(
 			password,
 			aggregatedLinks[0].password

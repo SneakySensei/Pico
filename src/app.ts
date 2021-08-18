@@ -15,6 +15,7 @@ const app: express.Application = express();
 app.use(express.json());
 
 app.use((req, res, next) => {
+	console.log(req.headers);
 	if (process.env.NODE_ENV === "development") {
 		req.headers["x-forwarded-for"] = process.env.TEST_IP;
 	}
