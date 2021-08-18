@@ -58,7 +58,7 @@ const InputContainer = styled.div`
 	.copy-btn {
 		cursor: pointer;
 		position: absolute;
-		right: 0;
+		right: 8px;
 		top: 0;
 		bottom: 0;
 		height: 100%;

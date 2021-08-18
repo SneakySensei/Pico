@@ -26,7 +26,7 @@ function App() {
 					<Route exact path="/">
 						<Home />
 					</Route>
-					<Route exact path="/admin/:slug">
+					<Route exact path="/admin/:slug?">
 						<Admin />
 					</Route>
 					<Route>404</Route>

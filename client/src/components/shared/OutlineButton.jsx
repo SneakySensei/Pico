@@ -45,9 +45,9 @@ const OutlineButtonContainer = styled.button`
 	}
 `;
 
-const OutlineButton = ({ children, disabled, style, onClick }) => {
+const OutlineButton = ({ children, disabled, theme, onClick }) => {
 	return (
-		<OutlineButtonContainer disabled={disabled} style={style} onClick={onClick}>
+		<OutlineButtonContainer disabled={disabled} onClick={onClick}>
 			{children}
 		</OutlineButtonContainer>
 	);

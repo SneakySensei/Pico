@@ -56,7 +56,7 @@ const InputContainer = styled.div`
 	.peek-btn {
 		cursor: pointer;
 		position: absolute;
-		right: 44px;
+		right: 48px;
 		top: 0;
 		bottom: 0;
 		padding: 0;
@@ -66,7 +66,7 @@ const InputContainer = styled.div`
 		transition: transform 200ms ease;
 
 		@media screen and (max-width: 420px) {
-			right: 38px;
+			right: 42px;
 		}
 
 		svg {
@@ -93,9 +93,11 @@ const InputContainer = styled.div`
 			&.peek {
 				.close {
 					opacity: 0;
+					transition: opacity 0ms 200ms;
 				}
 				.open {
 					opacity: 1;
+					transition: opacity 0ms 200ms;
 				}
 				.slash {
 					stroke-dashoffset: 50;
@@ -110,7 +112,7 @@ const InputContainer = styled.div`
 	.copy-btn {
 		cursor: pointer;
 		position: absolute;
-		right: 0;
+		right: 4px;
 		top: 0;
 		bottom: 0;
 		height: 100%;
@@ -160,7 +162,7 @@ const PasswordView = ({ password, showToast }) => {
 				type={visible ? "text" : "password"}
 			/>
 			<button
-				onClick={() => {
+				onMouseDown={() => {
 					setVisible(!visible);
 				}}
 				className="peek-btn"

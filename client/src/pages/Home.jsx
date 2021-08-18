@@ -118,7 +118,6 @@ const Home = () => {
 						{shortUrl.data === null ? (
 							<OutlineButton
 								disabled={!urlInput.valid}
-								loading={true}
 								theme="primary"
 								onClick={handleShrink}
 							>
@@ -147,7 +146,7 @@ const Home = () => {
 											showToast={handleShowToast}
 										/>
 										<div className="password-msg">
-											This is your admin key. Make sure you note this down.
+											This is your admin password. Make sure you note this down.
 											<br /> My creator didn't write a password recovery flow.
 											🙂
 										</div>
