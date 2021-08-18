@@ -60,7 +60,7 @@ export const handleLinkVisit = async (
 			if (
 				link.administration &&
 				!isCrawler(req.get("User-Agent")!) &&
-				req.headers["sec-fetch-mode"] === "navigate"
+				req.headers["sec-fetch-mode"] === "navigate" // only run for actual user requests and not other meta requests
 			) {
 				await addVisit(link, clientIP);
 			}
