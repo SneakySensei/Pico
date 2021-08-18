@@ -57,7 +57,11 @@ export const handleLinkVisit = async (
 	try {
 		const link = await fetchLinkAndVisit(slug);
 		if (link) {
-			if (link.administration && !isCrawler(req.get("User-Agent")!)) {
+			if (
+				link.administration &&
+				!isCrawler(req.get("User-Agent")!) &&
+				req.headers["sec-fetch-mode"] === "navigate"
+			) {
 				await addVisit(link, clientIP);
 			}
 			res.redirect(link.destination);
