@@ -19,10 +19,10 @@ const Admin = () => {
 	const [isAuth, setAuth] = useState(
 		getAuthDataFromSession(slug) ? true : false
 	);
-	const [sessionAuthData, _] = useState(getAuthDataFromSession(slug));
 	const [adminData, setAdminData] = useState(null);
 
 	useEffect(() => {
+		const sessionAuthData = getAuthDataFromSession(slug);
 		if (sessionAuthData) {
 			handleSubmit(sessionAuthData.slug, sessionAuthData.password);
 		}
