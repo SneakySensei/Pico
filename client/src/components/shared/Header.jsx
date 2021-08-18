@@ -16,6 +16,10 @@ const HeaderContainer = styled.header`
 			svg {
 				height: 40px;
 				width: auto;
+
+				@media screen and (max-width: 480px) {
+					height: 32px;
+				}
 			}
 		}
 
@@ -58,6 +62,7 @@ const HeaderContainer = styled.header`
 
 const Header = () => {
 	const match = useRouteMatch();
+	const authData = JSON.parse(sessionStorage.getItem("authData"));
 	return (
 		<HeaderContainer>
 			<nav>
@@ -65,8 +70,11 @@ const Header = () => {
 					<PicoLogo />
 				</Link>
 				{match?.path !== "/admin/:slug?" && (
-					<Link className="nav-item" to="/admin">
-						Login <LoginIcon />
+					<Link
+						className="nav-item"
+						to={authData ? `/admin/${authData.slug}` : "/admin"}
+					>
+						{authData ? "Manage" : "Login"} <LoginIcon />
 					</Link>
 				)}
 			</nav>
