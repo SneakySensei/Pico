@@ -23,6 +23,13 @@ const LoginContainer = styled.main`
 
 		.title {
 			font-size: 22pt;
+			font-weight: bold;
+			color: #efefef;
+			/* background: linear-gradient(to right, #cc208e, #6713d2);
+
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent; */
+			margin-bottom: 2rem;
 		}
 
 		label {
@@ -42,10 +49,12 @@ const LoginContainer = styled.main`
 			.error {
 				font-size: 12pt;
 				color: #f44336;
+				margin-top: 0.25rem;
 			}
 		}
 
 		.url-input {
+			margin-top: 0.5rem;
 			border-radius: 4pt;
 			display: flex;
 			align-items: center;
@@ -54,6 +63,26 @@ const LoginContainer = styled.main`
 			font-size: 16pt;
 			overflow: hidden;
 			font-weight: 700;
+			position: relative;
+			border-radius: 4pt;
+			transition: all 200ms ease;
+
+			&::before {
+				content: "";
+				z-index: 5;
+				pointer-events: none;
+				position: absolute;
+				inset: 0;
+				border-radius: 4pt;
+				padding: 2px;
+				background: linear-gradient(30deg, #cc208e, #6713d2);
+				-webkit-mask: linear-gradient(#fff 0 0) content-box,
+					linear-gradient(#fff 0 0);
+				-webkit-mask-composite: destination-out;
+				mask-composite: exclude;
+				opacity: 1;
+				transition: all 600ms cubic-bezier(0.07, 0.71, 0.07, 0.71);
+			}
 
 			input {
 				flex: 1;
@@ -67,7 +96,29 @@ const LoginContainer = styled.main`
 		}
 
 		.password-input {
+			margin-top: 0.5rem;
+			background-color: #1b1c24;
 			position: relative;
+			border-radius: 4pt;
+			transition: all 200ms ease;
+
+			&::before {
+				content: "";
+				z-index: 5;
+				pointer-events: none;
+				position: absolute;
+				inset: 0;
+				border-radius: 4pt;
+				padding: 2px;
+				background: linear-gradient(30deg, #cc208e, #6713d2);
+				-webkit-mask: linear-gradient(#fff 0 0) content-box,
+					linear-gradient(#fff 0 0);
+				-webkit-mask-composite: destination-out;
+				mask-composite: exclude;
+				opacity: 1;
+				transition: all 600ms cubic-bezier(0.07, 0.71, 0.07, 0.71);
+			}
+
 			input {
 				border: none;
 				outline: none;
@@ -178,7 +229,7 @@ const Login = ({ slug, onSubmit }) => {
 				<label>
 					URL
 					<div className="url-input">
-						pico.snehil.dev/
+						{`${window.location.host}/`}
 						<input
 							name="slug"
 							type="text"
@@ -196,7 +247,7 @@ const Login = ({ slug, onSubmit }) => {
 					</div>
 				</label>
 				<label>
-					PASSWORD
+					Password
 					<div className="password-input">
 						<input
 							name="password"
@@ -222,6 +273,7 @@ const Login = ({ slug, onSubmit }) => {
 				</label>
 
 				<OutlineButton
+					disabled={clicked && (error !== "" || loginData.password === "")}
 					onClick={() => {
 						setClicked(true);
 						if (loginData.slug !== "" && loginData.password !== "") {

@@ -14,11 +14,11 @@ const HeaderContainer = styled.header`
 		.logo {
 			margin-right: auto;
 			svg {
-				height: 40px;
+				height: 32px;
 				width: auto;
 
 				@media screen and (max-width: 480px) {
-					height: 32px;
+					height: 28px;
 				}
 			}
 		}
@@ -32,7 +32,7 @@ const HeaderContainer = styled.header`
 			align-items: center;
 
 			svg {
-				width: 24px;
+				width: 28px;
 				height: auto;
 				color: #eee;
 				margin-left: 0.5rem;

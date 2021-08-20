@@ -7,7 +7,7 @@ import { ReactComponent as EyeIcon } from "assets/eye-icon.svg";
 const InputContainer = styled.div`
 	align-self: center;
 	margin-top: 2rem;
-	background-color: #1b1c25;
+	background-color: #1b1c24;
 	width: 400px;
 	position: relative;
 	border-radius: 4pt;
@@ -42,7 +42,7 @@ const InputContainer = styled.div`
 		all: unset;
 		width: 100%;
 		font-size: 14pt;
-		padding: 0.5rem 1.25rem;
+		padding: 0.75rem 1.25rem;
 
 		&::placeholder {
 			color: #37394a;
@@ -72,7 +72,7 @@ const InputContainer = styled.div`
 		svg {
 			height: 100%;
 			width: 40px;
-			padding: 0.5rem 0.25rem;
+			padding: 0.5rem;
 
 			@media screen and (max-width: 420px) {
 				width: 32px;
@@ -118,7 +118,7 @@ const InputContainer = styled.div`
 		height: 100%;
 		width: 40px;
 		margin-right: 0.25rem;
-		padding: 0.5rem 0.25rem;
+		padding: 0.5rem;
 		/* background: linear-gradient(to right, #1b1c2400 0%, #1b1c24 25%); */
 		transition: transform 200ms ease;
 

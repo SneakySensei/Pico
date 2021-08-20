@@ -39,7 +39,7 @@ export const HomeContainer = styled.main`
 			margin-top: 1rem;
 			text-align: center;
 			color: #f44336;
-			font-weight: 600;
+			font-weight: 500;
 		}
 	}
 `;
@@ -51,9 +51,7 @@ export const GradientTextButton = styled.button`
 	font-size: 18pt;
 	font-weight: bold;
 	color: #efefef;
-	background: linear-gradient(to right, #cc208e, #6713d2, #cc208e, #6713d2);
-	background-size: 300% 100%;
-	background-position-x: right;
+	background: linear-gradient(to right, #cc208e, #6713d2);
 
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;

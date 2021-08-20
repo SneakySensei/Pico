@@ -25,9 +25,9 @@ const HeaderContainer = styled.header`
 		}
 
 		a {
-			height: 40px;
+			height: 32px;
 			@media screen and (max-width: 480px) {
-				height: 32px;
+				height: 28px;
 			}
 		}
 

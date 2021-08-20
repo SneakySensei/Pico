@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Dashboard, Login } from "components/admin";
@@ -33,7 +33,6 @@ const Admin = () => {
 		axios
 			.post("/api/admin/login", { slug, password })
 			.then((res) => {
-				console.log(res.data);
 				setAuth(true);
 				sessionStorage.setItem("authData", JSON.stringify({ slug, password }));
 				setAdminData(res.data);
@@ -43,11 +42,15 @@ const Admin = () => {
 			});
 	};
 
-	if (isAuth) {
-		return <Dashboard adminData={adminData} />;
-	} else {
-		return <Login slug={slug} onSubmit={handleSubmit} />;
-	}
+	return (
+		<>
+			{isAuth ? (
+				<Dashboard adminData={adminData} />
+			) : (
+				<Login slug={slug} onSubmit={handleSubmit} />
+			)}
+		</>
+	);
 };
 
 export default Admin;

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
 
 const InputContainer = styled.div`
-	background-color: #1b1c25;
+	background-color: #1b1c24;
 	max-width: 960px;
 	width: 80%;
 	position: relative;
@@ -109,9 +109,9 @@ const CreateLinkInput = ({
 
 				interval.current = setInterval(() => {
 					let crypticSlug =
-						(window.location.hostname === "localhost"
-							? "pico.snehil.dev"
-							: window.location.hostname) + "/";
+						window.location.hostname === "localhost"
+							? "pico.snehil.dev/"
+							: `${window.location.host}/`;
 
 					if (count % 1 === 0) {
 						charsVisible.push(nextToShow.shift());
@@ -137,9 +137,9 @@ const CreateLinkInput = ({
 			// Animation starts
 			interval.current = setInterval(() => {
 				let crypticSlug =
-					(window.location.hostname === "localhost"
-						? "pico.snehil.dev"
-						: window.location.hostname) + "/";
+					window.location.hostname === "localhost"
+						? "pico.snehil.dev/"
+						: `${window.location.host}/`;
 				for (let i = 0; i < 10; i++) {
 					crypticSlug += dict[Math.floor(Math.random() * dict.length)];
 				}
@@ -160,10 +160,8 @@ const CreateLinkInput = ({
 				navigator.clipboard
 					.writeText(
 						(window.location.hostname === "localhost"
-							? "pico.snehil.dev"
-							: window.location.hostname) +
-							"/" +
-							shortUrl.slug
+							? "pico.snehil.dev/"
+							: `${window.location.host}/`) + shortUrl.slug
 					)
 					.then(
 						function () {

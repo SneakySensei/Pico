@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import axios from "axios";
 import Transition from "react-transition-group/Transition";
+import { Prompt } from "react-router-dom";
 
 import {
 	GradientTextButton,
@@ -65,6 +66,14 @@ const Home = () => {
 					loading: false,
 					data: res.data,
 				}));
+
+				// confirm tab close/reload
+				window.addEventListener("beforeunload", function (e) {
+					var confirmationMessage = "";
+
+					(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+					return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+				});
 			})
 			.catch((err) => {
 				console.log(err);
@@ -103,6 +112,15 @@ const Home = () => {
 
 	return (
 		<>
+			<Prompt
+				when={shortUrl.loading || shortUrl.data !== null}
+				message={`You're about to leave this page. Make sure you've noted your picolink${
+					shortUrl.loadingAdministration ||
+					shortUrl.data?.administration === true
+						? " and admin password."
+						: "."
+				}`}
+			/>
 			<HomeContainer>
 				<Header />
 				<main>
