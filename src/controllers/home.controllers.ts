@@ -62,13 +62,13 @@ export const handleLinkVisit = async (
 				!isCrawler(req.get("User-Agent")!) &&
 				req.headers["sec-fetch-mode"] === "navigate" // only run for actual user requests and not other meta requests
 			) {
-				await addVisit(link, clientIP);
+				addVisit(link, clientIP);
 			}
 			res.redirect(link.destination);
 		} else {
 			res.status(404).send("404 Link not found!");
 		}
 	} catch (err) {
-		next(err);
+		next("route");
 	}
 };

@@ -2,6 +2,7 @@ import { config as dotenvConfig } from "dotenv";
 dotenvConfig({ debug: true });
 
 import express from "express";
+import path from "path";
 import cors from "cors";
 
 import { initializeMongoDBClient } from "./db/mongodb";
@@ -28,10 +29,15 @@ app.use("/api/admin", cors(), adminRoutes);
 // NOTE /:slug route
 app.get("/:slug", handleLinkVisit);
 
-// TODO / client route
-// TODO /admin/:slug client route
+app.use(express.static(path.join(__dirname, "..", "client", "build")));
 
-// TODO 404 handler
+// if (process.env.NODE_ENV === "production") {
+app.get("*", function (req, res) {
+	res.sendFile(path.join(__dirname, "..", "client", "build", "index.html"));
+});
+// }
+
+// TODO Error handler
 app.use(errorHandler);
 
 Promise.all([initializeMongoDBClient()])
