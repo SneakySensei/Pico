@@ -5,7 +5,6 @@ import { ReactComponent as BackGradient } from "assets/admin-bg.svg";
 import Header from "./dashboard/Header";
 import Graph from "./dashboard/Graph";
 import MapView from "./dashboard/Map";
-
 import DangerZone from "./dashboard/DangerZone";
 import Hero from "./dashboard/Hero";
 

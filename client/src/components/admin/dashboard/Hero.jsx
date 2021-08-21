@@ -107,7 +107,7 @@ const Hero = ({ adminData }) => {
 						</span>
 						{adminData && <CopyIcon />}
 					</article>
-					<LinkIcon class="link" />
+					<LinkIcon className="link" />
 					<article>
 						<a href={adminData?.destination} target="_blank" rel="noreferrer">
 							{adminData ? adminData.destination : ""}
