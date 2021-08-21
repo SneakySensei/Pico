@@ -21,7 +21,8 @@
 		"react-transition-group": "^4.4.2",
 		"styled-components": "^5.3.0",
 		"test-react-chartjs-2": "^3.0.4",
-		"web-vitals": "^1.0.1"
+		"web-vitals": "^1.0.1",
+		"worker-loader": "^3.0.8"
 	},
 	"scripts": {
 		"start": "react-scripts start",
