@@ -28,13 +28,13 @@ const validateRequest = (
 				break;
 		}
 		try {
-			await schema.validate(_location, { abortEarly: false });
+			await schema.validate(_location, { abortEarly: false, strict: true });
 			next();
 		} catch (error) {
 			let message: string = "";
 			const errors: string[] = error.errors;
 			message = errors.join(" ");
-
+			console.error(message);
 			next({
 				httpStatus: 400,
 				message: message,
