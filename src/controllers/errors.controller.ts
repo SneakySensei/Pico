@@ -15,11 +15,11 @@ export const errors = {
 		httpStatus: 404,
 	},
 	ADMIN_INCORRECT_PASSWORD: {
-		message: "Incorrect password",
+		message: "Incorrect password!",
 		httpStatus: 401,
 	},
 	ADMIN_NOT_ENABLED: {
-		message: "Invalid slug or administration not enabled",
+		message: "Invalid slug or administration not enabled!",
 		httpStatus: 406,
 	},
 	ADMIN_DUPLICATE_SLUG: {
