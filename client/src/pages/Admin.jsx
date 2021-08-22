@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { Dashboard, Login } from "components/admin";
 import axios from "axios";
+import { handleError } from "services/toasts";
 
 const getAuthDataFromSession = (slug) => {
 	const authData = JSON.parse(sessionStorage.getItem("authData"));
@@ -16,6 +17,7 @@ const getAuthDataFromSession = (slug) => {
 const Admin = () => {
 	const { slug } = useParams();
 
+	const [submitting, setSubmitting] = useState(false);
 	const [isAuth, setAuth] = useState(
 		getAuthDataFromSession(slug) ? true : false
 	);
@@ -29,6 +31,7 @@ const Admin = () => {
 	}, []);
 
 	const handleSubmit = (slug, password) => {
+		setSubmitting(true);
 		// save to session storage
 		axios
 			.post("/api/admin/login", { slug, password })
@@ -38,7 +41,10 @@ const Admin = () => {
 				setAdminData(res.data);
 			})
 			.catch((err) => {
-				console.log(err);
+				handleError(err);
+			})
+			.finally(() => {
+				setSubmitting(false);
 			});
 	};
 
@@ -47,7 +53,7 @@ const Admin = () => {
 			{isAuth ? (
 				<Dashboard adminData={adminData} />
 			) : (
-				<Login slug={slug} onSubmit={handleSubmit} />
+				<Login slug={slug} onSubmit={handleSubmit} submitting={submitting} />
 			)}
 		</>
 	);

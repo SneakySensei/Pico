@@ -137,7 +137,7 @@ const Home = () => {
 							<OutlineButton
 								disabled={!urlInput.valid}
 								theme="primary"
-								onClick={handleShrink}
+								onClick={shortUrl.loading ? () => {} : handleShrink}
 							>
 								{shortUrl.loading ? <HorizontalLoader /> : "Shrink"}
 							</OutlineButton>

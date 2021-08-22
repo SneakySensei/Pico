@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-import { Header, OutlineButton } from "components/shared";
+import { Header, HorizontalLoader, OutlineButton } from "components/shared";
 
 import { ReactComponent as EyeIcon } from "assets/eye-icon.svg";
 import { slugRegEx } from "services/utils";
@@ -182,7 +182,7 @@ const LoginContainer = styled.main`
 	}
 `;
 
-const Login = ({ slug, onSubmit }) => {
+const Login = ({ slug, onSubmit, submitting }) => {
 	const [loginData, setLoginData] = useState({
 		slug: slug ? slug : "",
 		password: "",
@@ -275,13 +275,15 @@ const Login = ({ slug, onSubmit }) => {
 				<OutlineButton
 					disabled={clicked && (error !== "" || loginData.password === "")}
 					onClick={() => {
-						setClicked(true);
-						if (loginData.slug !== "" && loginData.password !== "") {
-							onSubmit(loginData.slug, loginData.password);
+						if (!submitting) {
+							setClicked(true);
+							if (loginData.slug !== "" && loginData.password !== "") {
+								onSubmit(loginData.slug, loginData.password);
+							}
 						}
 					}}
 				>
-					Login
+					{submitting ? <HorizontalLoader /> : "Login"}
 				</OutlineButton>
 			</main>
 		</LoginContainer>

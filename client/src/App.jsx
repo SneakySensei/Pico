@@ -3,6 +3,9 @@ import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
 
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const GlobalStyles = createGlobalStyle`
 	*, ::before, ::after {
 		box-sizing: border-box !important;
@@ -12,9 +15,13 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     color: #EFEFEF;
-		background-color: #121013;
-		
-	  }
+		background-color: #121013;	
+	}
+
+	.Toastify__toast--dark{
+		background-color: #1B1C24 !important;
+	}
+
 `;
 
 function App() {
@@ -32,6 +39,7 @@ function App() {
 					<Route>404</Route>
 				</Switch>
 			</Router>
+			<ToastContainer />
 		</>
 	);
 }
