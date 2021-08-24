@@ -86,6 +86,7 @@ const LoginContainer = styled.main`
 
 			input {
 				flex: 1;
+				min-width: 0;
 				padding: 0;
 				outline: none;
 				border: none;
@@ -193,7 +194,7 @@ const Login = ({ slug, onSubmit, submitting }) => {
 	const [visible, setVisible] = useState(false);
 	const [clicked, setClicked] = useState(false);
 
-	const history = useHistory();
+	// const history = useHistory();
 
 	const handleChange = (e) => {
 		const name = e.target.name;
@@ -206,11 +207,14 @@ const Login = ({ slug, onSubmit, submitting }) => {
 					...loginData,
 					[name]: value,
 				}));
-
-				history.push(`/admin/${e.target.value}`);
+				window.history.replaceState(
+					null,
+					"Pico | Login",
+					`/admin/${e.target.value}`
+				);
 			} else {
 				setError(
-					"Invalid character! A pico url contains only alphabets, numbers, and hyphens(-)."
+					"Invalid characters found! A pico url contains only alphabets, numbers, and hyphens(-)."
 				);
 			}
 		} else {
@@ -218,6 +222,19 @@ const Login = ({ slug, onSubmit, submitting }) => {
 				...loginData,
 				[name]: value,
 			}));
+		}
+	};
+
+	const handlePaste = (e) => {
+		const pasteData = e.clipboardData.getData("Text");
+		if (pasteData.toLowerCase().includes("pico.snehil.dev")) {
+			e.preventDefault();
+			let slug = pasteData;
+			if (slug.charAt(slug.length - 1) === "/") {
+				slug = slug.substr(0, slug.length - 1);
+			}
+			slug = slug.substr(slug.lastIndexOf("/") + 1, slug.length);
+			handleChange({ target: { name: "slug", value: slug } });
 		}
 	};
 
@@ -236,6 +253,7 @@ const Login = ({ slug, onSubmit, submitting }) => {
 							placeholder="YourPicoLink"
 							value={loginData.slug}
 							onChange={handleChange}
+							onPaste={handlePaste}
 						/>
 					</div>
 					<div className="error">

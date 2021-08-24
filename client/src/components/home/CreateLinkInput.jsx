@@ -160,8 +160,9 @@ const CreateLinkInput = ({
 				navigator.clipboard
 					.writeText(
 						(window.location.hostname === "localhost"
-							? "pico.snehil.dev/"
-							: `${window.location.host}/`) + shortUrl.slug
+							? "https://pico.snehil.dev/"
+							: `${window.location.protocol}//${window.location.host}/`) +
+							shortUrl.slug
 					)
 					.then(
 						function () {

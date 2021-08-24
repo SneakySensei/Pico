@@ -4,6 +4,7 @@ import axios from "axios";
 import { useHistory } from "react-router-dom";
 
 import { slugRegEx, urlRegEx } from "services/utils";
+import { handleError } from "services/toasts";
 
 const DangerZoneContainer = styled.section`
 	padding: 0 1rem;
@@ -136,10 +137,14 @@ const DangerZone = ({ adminData }) => {
 					password,
 				})
 				.then((res) => {
-					sessionStorage.setItem(
-						"authData",
-						JSON.stringify({ slug: res.data.slug, password: password })
-					);
+					sessionStorage
+						.setItem(
+							"authData",
+							JSON.stringify({ slug: res.data.slug, password: password })
+						)
+						.catch((err) => {
+							handleError(err);
+						});
 					history.replace(`/admin/${res.data.slug}`);
 					document.body.scrollTo({ behavior: "auto", top: 0 });
 					window.location.reload();
@@ -177,6 +182,9 @@ const DangerZone = ({ adminData }) => {
 				})
 				.then((res) => {
 					window.location.reload();
+				})
+				.catch((err) => {
+					handleError(err);
 				});
 			// update
 			// clear input

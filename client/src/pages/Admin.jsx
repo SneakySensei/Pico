@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { Dashboard, Login } from "components/admin";
@@ -18,15 +18,13 @@ const Admin = () => {
 	const { slug } = useParams();
 
 	const [submitting, setSubmitting] = useState(false);
-	const [isAuth, setAuth] = useState(
-		getAuthDataFromSession(slug) ? true : false
-	);
+	const [isAuth, setAuth] = useState(false);
 	const [adminData, setAdminData] = useState(null);
 
 	useEffect(() => {
-		const sessionAuthData = getAuthDataFromSession(slug);
-		if (sessionAuthData) {
-			handleSubmit(sessionAuthData.slug, sessionAuthData.password);
+		const authData = JSON.parse(sessionStorage.getItem("authData"));
+		if (authData && authData.slug === slug) {
+			handleSubmit(authData.slug, authData.password);
 		}
 	}, []);
 
@@ -36,14 +34,14 @@ const Admin = () => {
 		axios
 			.post("/api/admin/login", { slug, password })
 			.then((res) => {
-				setAuth(true);
 				sessionStorage.setItem("authData", JSON.stringify({ slug, password }));
 				setAdminData(res.data);
+				setAuth(true);
+				setSubmitting(false);
 			})
 			.catch((err) => {
+				sessionStorage.removeItem("authData");
 				handleError(err);
-			})
-			.finally(() => {
 				setSubmitting(false);
 			});
 	};

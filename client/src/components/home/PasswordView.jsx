@@ -18,7 +18,8 @@ const InputContainer = styled.div`
 	}
 
 	@media screen and (max-width: 420px) {
-		width: 240px;
+		/* width: 240px; */
+		width: 100%;
 	}
 
 	&::before {
@@ -48,10 +49,10 @@ const InputContainer = styled.div`
 			color: #37394a;
 		}
 
-		@media screen and (max-width: 420px) {
+		/* @media screen and (max-width: 420px) {
 			font-size: 12pt;
 			padding: 0.5rem 1rem;
-		}
+		} */
 	}
 	.peek-btn {
 		cursor: pointer;
@@ -60,23 +61,23 @@ const InputContainer = styled.div`
 		top: 0;
 		bottom: 0;
 		padding: 0;
-		background: transparent;
+		background: linear-gradient(to right, #1b1c2400 0%, #1b1c24 25%);
 		outline: none;
 		border: none;
 		transition: transform 200ms ease;
 
-		@media screen and (max-width: 420px) {
+		/* @media screen and (max-width: 420px) {
 			right: 42px;
-		}
+		} */
 
 		svg {
 			height: 100%;
 			width: 40px;
 			padding: 0.5rem;
 
-			@media screen and (max-width: 420px) {
+			/* @media screen and (max-width: 420px) {
 				width: 32px;
-			}
+			} */
 
 			.close {
 				opacity: 1;
@@ -119,12 +120,12 @@ const InputContainer = styled.div`
 		width: 40px;
 		margin-right: 0.25rem;
 		padding: 0.5rem;
-		/* background: linear-gradient(to right, #1b1c2400 0%, #1b1c24 25%); */
+		background: #1b1c24;
 		transition: transform 200ms ease;
 
-		@media screen and (max-width: 420px) {
+		/* @media screen and (max-width: 420px) {
 			width: 32px;
-		}
+		} */
 
 		&:active {
 			transform: scale(0.8);

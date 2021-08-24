@@ -29,5 +29,28 @@ export const handleError = (err) => {
 			}
 		);
 	} else {
+		toast.dark(
+			<div
+				style={{
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "flex-start",
+				}}
+			>
+				<ErrorIcon
+					style={{ marginRight: "0.75rem", width: "24px", height: "24px" }}
+				/>
+				<span style={{ flex: 1 }}>Something went wrong!</span>
+			</div>,
+			{
+				position: "bottom-center",
+				autoClose: 3000,
+				hideProgressBar: true,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				closeButton: false,
+			}
+		);
 	}
 };

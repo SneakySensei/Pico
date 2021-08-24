@@ -16,6 +16,7 @@ import { Header, HorizontalLoader, OutlineButton } from "components/shared";
 import { urlRegEx } from "services/utils";
 
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
+import { handleError } from "services/toasts";
 
 const Home = () => {
 	const [urlInput, setUrlInput] = useState({
@@ -48,18 +49,6 @@ const Home = () => {
 		setShortUrl((shortUrl) => ({ ...shortUrl, loading: true }));
 		axios
 			.post("/api/shrinkurl", { url: urlInput.value })
-			// new Promise((resolve) =>
-			// 	setTimeout(
-			// 		() =>
-			// 			resolve({
-			// 				data: {
-			// 					slug: "testingurl",
-			// 					_id: "sadasdasgasdguiosdghwuidghwuisdghuiweui",
-			// 				},
-			// 			}),
-			// 		3000
-			// 	)
-			// )
 			.then((res) => {
 				setShortUrl((shortUrl) => ({
 					...shortUrl,
@@ -76,7 +65,7 @@ const Home = () => {
 				});
 			})
 			.catch((err) => {
-				console.log(err);
+				handleError(err);
 				setShortUrl((shortUrl) => ({
 					...shortUrl,
 					shortUrl: null,
@@ -98,7 +87,7 @@ const Home = () => {
 				}));
 			})
 			.catch((err) => {
-				console.log(err);
+				handleError(err);
 				setShortUrl((shortUrl) => ({
 					...shortUrl,
 					loadingAdministration: false,

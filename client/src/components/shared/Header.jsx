@@ -34,27 +34,12 @@ const HeaderContainer = styled.header`
 			svg {
 				width: 28px;
 				height: auto;
-				color: #eee;
 				margin-left: 0.5rem;
-			}
-
-			&::after {
-				content: "";
-				display: block;
-				position: absolute;
-				left: 0;
-				right: 0;
-				bottom: 0;
-				height: 2px;
-				background-color: #efefef;
-				transform: scaleX(0);
-				opacity: 0;
 				transition: all 200ms ease;
 			}
 
-			&:hover::after {
-				transform: scaleX(1);
-				opacity: 1;
+			&:hover svg {
+				transform: rotate(90deg);
 			}
 		}
 	}
