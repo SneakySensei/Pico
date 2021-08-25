@@ -40,23 +40,27 @@ const DashboardContainer = styled.main`
 			text-align: center;
 			/* TODO edit media queries */
 			@media screen and (max-width: 640px) {
-				/* font-size: 48pt; */
+				font-size: 58pt;
 			}
 
-			@media screen and (max-width: 540px) {
-				font-size: 48pt;
+			@media screen and (max-width: 570px) {
+				font-size: 52pt;
 			}
 
-			@media screen and (max-width: 480px) {
-				font-size: 44pt;
+			@media screen and (max-width: 510px) {
+				font-size: 46pt;
 			}
 
-			@media screen and (max-width: 420px) {
+			@media screen and (max-width: 450px) {
 				font-size: 40pt;
 			}
 
-			@media screen and (max-width: 360px) {
-				font-size: 36pt;
+			@media screen and (max-width: 400px) {
+				font-size: 34pt;
+			}
+
+			@media screen and (max-width: 340px) {
+				font-size: 30pt;
 			}
 		}
 		div {

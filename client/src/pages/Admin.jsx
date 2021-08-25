@@ -24,6 +24,7 @@ const Admin = () => {
 	useEffect(() => {
 		const authData = JSON.parse(sessionStorage.getItem("authData"));
 		if (authData && authData.slug === slug) {
+			setAuth(true);
 			handleSubmit(authData.slug, authData.password);
 		}
 	}, []);

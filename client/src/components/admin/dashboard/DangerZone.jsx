@@ -18,13 +18,18 @@ const DangerZoneContainer = styled.section`
 		width: 100%;
 		max-width: 700px;
 		margin: 0 auto;
-		padding: 1rem 1rem 2rem;
-		border-radius: 8pt;
+		padding: 1rem 1rem 1rem;
+		border-radius: 4pt;
 		border: 1px dashed #f44336;
 
 		h1 {
 			margin: 0;
 			font-size: 20pt;
+			line-height: 1;
+
+			@media screen and (max-width: 480px) {
+				font-size: 18pt;
+			}
 		}
 
 		label {
@@ -55,7 +60,7 @@ const DangerZoneContainer = styled.section`
 
 				.input-container {
 					/* order: 2; */
-
+					width: 100%;
 					background-color: #1b1c24;
 					font-size: 14pt;
 					padding: 6px 1rem;
@@ -64,13 +69,25 @@ const DangerZoneContainer = styled.section`
 					align-items: center;
 					border-radius: 4pt;
 					cursor: text;
-					flex-wrap: wrap;
+
+					@media screen and (max-width: 480px) {
+						font-size: 12pt;
+					}
+
+					@media screen and (max-width: 360px) {
+						flex-direction: column;
+						align-items: stretch;
+					}
 					input {
 						all: unset;
 						flex: 1;
 						font-size: 14pt;
 						background: transparent;
-						/* min-width: 0; */
+						min-width: 0;
+
+						@media screen and (max-width: 480px) {
+							font-size: 12pt;
+						}
 					}
 				}
 
@@ -86,6 +103,10 @@ const DangerZoneContainer = styled.section`
 					cursor: pointer;
 					margin: 0 0 0 1rem;
 					transition: all 200ms ease;
+
+					@media screen and (max-width: 480px) {
+						font-size: 12pt;
+					}
 
 					&:not(:disabled):hover {
 						color: #efefef;
@@ -205,7 +226,7 @@ const DangerZone = ({ adminData }) => {
 						Edit Picolink
 						<div className="input-group">
 							<span className="input-container">
-								https://pico.snehil.dev/
+								<span>https://pico.snehil.dev/</span>
 								<input
 									value={picolink.value}
 									onChange={handlePicolinkChange}

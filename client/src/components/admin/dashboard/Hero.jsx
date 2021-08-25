@@ -20,6 +20,11 @@ const HeroContainer = styled.section`
 		background-color: #1b1c24;
 		border-radius: 8pt;
 		max-width: 700px;
+
+		@media screen and (max-width: 440px) {
+			padding: 0.75rem 1rem;
+		}
+
 		article {
 			margin: 1rem 0;
 			display: flex;
@@ -39,6 +44,10 @@ const HeroContainer = styled.section`
 				white-space: nowrap;
 				overflow: hidden;
 				text-overflow: ellipsis;
+
+				@media screen and (max-width: 440px) {
+					font-size: 14pt;
+				}
 			}
 			svg {
 				margin-left: 0.25rem;
