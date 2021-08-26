@@ -162,17 +162,17 @@ const DangerZone = ({ adminData }) => {
 					password,
 				})
 				.then((res) => {
-					sessionStorage
-						.setItem(
-							"authData",
-							JSON.stringify({ slug: res.data.slug, password: password })
-						)
-						.catch((err) => {
-							handleError(err);
-						});
+					sessionStorage.setItem(
+						"authData",
+						JSON.stringify({ slug: res.data.slug, password: password })
+					);
+
 					history.replace(`/admin/${res.data.slug}`);
 					document.body.scrollTo({ behavior: "auto", top: 0 });
 					window.location.reload();
+				})
+				.catch((err) => {
+					handleError(err);
 				});
 			// update
 			// clear input

@@ -40,6 +40,16 @@ export const HomeContainer = styled.main`
 			font-size: 16pt;
 			text-decoration: underline;
 			cursor: pointer;
+			color: #efefef;
+			text-align: center;
+			word-break: break-all;
+			@media screen and (max-width: 560px) {
+				font-size: 14pt;
+			}
+
+			@media screen and (max-width: 380px) {
+				font-size: 12pt;
+			}
 		}
 
 		.password-msg {

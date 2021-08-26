@@ -149,22 +149,19 @@ const Home = () => {
 								</GradientTextButton>
 								{shortUrl.data?.administration && (
 									<>
-										<article
+										<a
+											href={`https://pico.snehil.dev/admin/${shortUrl.data.slug}`}
 											className="admin-link"
-											onClick={() => {
-												handleShowToast("Copied to clipboard!", "info", 1000);
-												copy(
-													`https://pico.snehil.dev/admin/${shortUrl.data.slug}`
-												);
-											}}
+											target="_blank"
+											rel="noreferrer"
 										>
 											https://pico.snehil.dev/admin/{shortUrl.data.slug}
-										</article>
+										</a>
 										<div
 											className="password-msg"
 											style={{ marginTop: "0.5rem" }}
 										>
-											Your admin url. Use it to manage your picolink.
+											Your admin url. Login here to manage your picolink.
 										</div>
 										<PasswordView
 											password={shortUrl.data.password}
