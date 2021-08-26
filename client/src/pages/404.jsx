@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { ReactComponent as Ufo } from "assets/404-ufo.svg";
+import { Link } from "react-router-dom";
 
 const PageContainer = styled.main`
 	display: grid;
@@ -18,6 +19,11 @@ const PageContainer = styled.main`
 		margin-top: 2rem;
 		text-align: center;
 	}
+	a {
+		margin-top: 1rem;
+		font-size: 14pt;
+		color: #efefef;
+	}
 `;
 
 const Error404 = () => {
@@ -28,6 +34,7 @@ const Error404 = () => {
 				The page you're looking for was not found! Maybe the aliens took it or
 				maybe it was never there!
 			</article>
+			<Link to="/">Let's go Home</Link>
 		</PageContainer>
 	);
 };
