@@ -37,6 +37,10 @@ const InputContainer = styled.div`
 		mask-composite: exclude;
 		opacity: 1;
 		transition: all 600ms cubic-bezier(0.07, 0.71, 0.07, 0.71);
+
+		@media screen and (max-width: 480px) {
+			padding: 1px;
+		}
 	}
 
 	input {

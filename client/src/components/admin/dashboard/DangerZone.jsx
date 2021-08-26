@@ -105,6 +105,10 @@ const DangerZoneContainer = styled.section`
 					transition: all 200ms ease;
 
 					@media screen and (max-width: 480px) {
+						border-width: 1px;
+					}
+
+					@media screen and (max-width: 480px) {
 						font-size: 12pt;
 					}
 

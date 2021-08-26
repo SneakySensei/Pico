@@ -31,6 +31,10 @@ const InputContainer = styled.div`
 		-webkit-mask-composite: destination-out;
 		mask-composite: exclude;
 		transition: all 600ms cubic-bezier(0.07, 0.71, 0.07, 0.71);
+
+		@media screen and (max-width: 480px) {
+			padding: 1px;
+		}
 	}
 
 	&:focus-within {

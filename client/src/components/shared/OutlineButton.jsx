@@ -13,6 +13,10 @@ const OutlineButtonContainer = styled.button`
 	transition: transform 400ms ease;
 	position: relative;
 
+	@media screen and (max-width: 480px) {
+		border-width: 1px;
+	}
+
 	&::before {
 		content: "";
 		display: block;

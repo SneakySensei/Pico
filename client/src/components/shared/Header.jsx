@@ -41,6 +41,9 @@ const HeaderContainer = styled.header`
 			&:hover svg {
 				transform: rotate(90deg);
 			}
+			&:active svg {
+				transform: rotate(90deg);
+			}
 		}
 	}
 `;
