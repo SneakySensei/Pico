@@ -39,7 +39,7 @@ const HeroContainer = styled.section`
 				text-decoration: underline;
 				cursor: pointer;
 				text-align: center;
-				line-height: 1;
+				line-height: 1.1;
 				min-width: 0;
 				/* flex: 1; */
 				white-space: nowrap;

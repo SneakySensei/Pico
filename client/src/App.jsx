@@ -15,7 +15,25 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     color: #EFEFEF;
-		background-color: #121013;	
+		background-color: #121013;
+		
+		::-webkit-scrollbar {
+			width: 2px;
+		}
+
+		::-webkit-scrollbar *{
+			background: transparent;
+		}
+		
+		::-webkit-scrollbar-thumb {
+			all: unset;
+			background-color: #efefef;
+			transition: all 200ms ease;
+
+			&:hover{
+				background-color: #CC208E;
+			}
+		}
 	}
 
 	.Toastify__toast--dark{

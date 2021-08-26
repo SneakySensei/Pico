@@ -33,7 +33,7 @@ const MapView = ({ visitsData }) => {
 	const map = useRef(null);
 
 	const [mapLoaded, setMapLoaded] = useState(false);
-	console.log(visitsData);
+	// console.log(visitsData);
 
 	useEffect(() => {
 		if (map.current) return; // initialize map only once

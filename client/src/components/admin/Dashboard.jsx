@@ -7,6 +7,7 @@ import Graph from "./dashboard/Graph";
 import MapView from "./dashboard/Map";
 import DangerZone from "./dashboard/DangerZone";
 import Hero from "./dashboard/Hero";
+import { Footer } from "components/shared";
 
 const DashboardContainer = styled.main`
 	position: relative;
@@ -88,6 +89,7 @@ const Dashboard = ({ adminData }) => {
 			<Graph visitsData={adminData?.visits} />
 			<MapView visitsData={adminData?.visits} />
 			<DangerZone adminData={adminData} />
+			<Footer />
 		</DashboardContainer>
 	);
 };

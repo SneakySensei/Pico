@@ -11,13 +11,17 @@ import {
 } from "./home.styles";
 
 import { CreateLinkInput, PasswordView } from "components/home";
-import { Header, HorizontalLoader, OutlineButton } from "components/shared";
+import {
+	Footer,
+	Header,
+	HorizontalLoader,
+	OutlineButton,
+} from "components/shared";
 
 import { urlRegEx } from "services/utils";
 
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
 import { handleError } from "services/toasts";
-import copy from "copy-to-clipboard";
 
 const Home = () => {
 	const [urlInput, setUrlInput] = useState({
@@ -80,7 +84,7 @@ const Home = () => {
 		axios
 			.put("/api/enableanalytics", { linkId: shortUrl.data._id })
 			.then((res) => {
-				console.log(res.data);
+				// console.log(res.data);
 				setShortUrl((shortUrl) => ({
 					...shortUrl,
 					loadingAdministration: false,
@@ -180,6 +184,7 @@ const Home = () => {
 				</main>
 				<LinkGlyph className="link-bg" />
 			</HomeContainer>
+			<Footer />
 			<Transition
 				in={toast.visible}
 				timeout={200}
