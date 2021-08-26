@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import Home from "./pages/Home";
 import Admin from "./pages/Admin";
+import ErrorPage from "./pages/404";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -54,7 +55,9 @@ function App() {
 					<Route exact path="/admin/:slug?">
 						<Admin />
 					</Route>
-					<Route>404</Route>
+					<Route>
+						<ErrorPage />
+					</Route>
 				</Switch>
 			</Router>
 			<ToastContainer />
