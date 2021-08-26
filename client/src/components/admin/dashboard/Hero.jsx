@@ -5,6 +5,7 @@ import { ReactComponent as LinkIcon } from "assets/link-icon.svg";
 import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
 import { Transition } from "react-transition-group";
 import { Toast, toastTransitionStyles } from "pages/home.styles";
+import copy from "copy-to-clipboard";
 
 const HeroContainer = styled.section`
 	padding: 0 1rem;
@@ -80,24 +81,11 @@ const Hero = ({ adminData }) => {
 
 	const copyUrlToClipboard = (e) => {
 		handleShowToast("Copied to clipboard!", "info", 1000);
-		navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-			if (result.state === "granted" || result.state === "prompt") {
-				navigator.clipboard
-					.writeText(
-						(window.location.hostname === "localhost"
-							? "pico.snehil.dev/"
-							: `${window.location.host}/`) + adminData?.slug
-					)
-					.then(
-						function () {
-							/* clipboard successfully set */
-						},
-						function () {
-							/* clipboard write failed */
-						}
-					);
-			}
-		});
+		copy(
+			(window.location.hostname === "localhost"
+				? "pico.snehil.dev/"
+				: `${window.location.host}/`) + adminData?.slug
+		);
 	};
 
 	const handleShowToast = (message, type, duration) => {

@@ -17,6 +17,7 @@ import { urlRegEx } from "services/utils";
 
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
 import { handleError } from "services/toasts";
+import copy from "copy-to-clipboard";
 
 const Home = () => {
 	const [urlInput, setUrlInput] = useState({
@@ -146,14 +147,31 @@ const Home = () => {
 										? "Enabling Administration..."
 										: "Enable Administration"}
 								</GradientTextButton>
-								{shortUrl.data.administration && (
+								{shortUrl.data?.administration && (
 									<>
+										<article
+											className="admin-link"
+											onClick={() => {
+												handleShowToast("Copied to clipboard!", "info", 1000);
+												copy(
+													`https://pico.snehil.dev/admin/${shortUrl.data.slug}`
+												);
+											}}
+										>
+											https://pico.snehil.dev/admin/{shortUrl.data.slug}
+										</article>
+										<div
+											className="password-msg"
+											style={{ marginTop: "0.5rem" }}
+										>
+											Your admin url. Use it to manage your picolink.
+										</div>
 										<PasswordView
 											password={shortUrl.data.password}
 											showToast={handleShowToast}
 										/>
 										<div className="password-msg">
-											This is your admin password. Make sure you note this down.
+											Your admin password. Make sure you note this down.
 											<br /> My creator didn't write a password recovery flow.
 											🙂
 										</div>

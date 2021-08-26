@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 
 import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
+import copy from "copy-to-clipboard";
 
 const InputContainer = styled.div`
 	background-color: #1b1c24;
@@ -159,25 +160,12 @@ const CreateLinkInput = ({
 		// inputRef.current.select();
 		// inputRef.current.setSelectionRange(0, 99999);
 		// document.execCommand("copy");
-		navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-			if (result.state === "granted" || result.state === "prompt") {
-				navigator.clipboard
-					.writeText(
-						(window.location.hostname === "localhost"
-							? "https://pico.snehil.dev/"
-							: `${window.location.protocol}//${window.location.host}/`) +
-							shortUrl.slug
-					)
-					.then(
-						function () {
-							/* clipboard successfully set */
-						},
-						function () {
-							/* clipboard write failed */
-						}
-					);
-			}
-		});
+		copy(
+			(window.location.hostname === "localhost"
+				? "https://pico.snehil.dev/"
+				: `${window.location.protocol}//${window.location.host}/`) +
+				shortUrl.slug
+		);
 	};
 
 	return (

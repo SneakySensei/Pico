@@ -35,6 +35,13 @@ export const HomeContainer = styled.main`
 		margin-top: 2rem;
 		min-height: 170px;
 
+		.admin-link {
+			margin-top: 1rem;
+			font-size: 16pt;
+			text-decoration: underline;
+			cursor: pointer;
+		}
+
 		.password-msg {
 			margin-top: 1rem;
 			text-align: center;
@@ -73,6 +80,7 @@ export const GradientTextButton = styled.button`
 		opacity: 0;
 		transition: transform 200ms ease, opacity 200ms ease;
 	}
+
 	&:hover:not(:disabled)::before {
 		transform: scaleX(1);
 		opacity: 1;

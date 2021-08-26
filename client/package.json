@@ -10,6 +10,7 @@
 		"axios": "^0.21.1",
 		"chart.js": "^3.5.1",
 		"chartjs-adapter-moment": "^1.0.0",
+		"copy-to-clipboard": "^3.3.1",
 		"loadash": "^1.0.0",
 		"mapbox-gl": "^2.4.1",
 		"moment": "^2.29.1",

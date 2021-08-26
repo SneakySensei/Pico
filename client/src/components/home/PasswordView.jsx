@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 import { ReactComponent as CopyIcon } from "assets/copy-icon.svg";
 import { ReactComponent as EyeIcon } from "assets/eye-icon.svg";
+import copy from "copy-to-clipboard";
 
 const InputContainer = styled.div`
 	align-self: center;
@@ -145,18 +146,7 @@ const PasswordView = ({ password, showToast }) => {
 		// inputRef.current.select();
 		// inputRef.current.setSelectionRange(0, 99999);
 		// document.execCommand("copy");
-		navigator.permissions.query({ name: "clipboard-write" }).then((result) => {
-			if (result.state === "granted" || result.state === "prompt") {
-				navigator.clipboard.writeText(password).then(
-					function () {
-						/* clipboard successfully set */
-					},
-					function () {
-						/* clipboard write failed */
-					}
-				);
-			}
-		});
+		copy(password);
 	};
 
 	return (
