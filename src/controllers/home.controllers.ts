@@ -8,15 +8,15 @@ import {
 	fetchLinkAndVisit,
 } from "../services/home.services";
 
-import { isCrawler } from "../services/utils";
+import { getUrlWithProtocol, isCrawler } from "../services/utils";
 
 export const handleShrinkUrl = async (
 	req: Request,
 	res: Response,
 	next: NextFunction
 ) => {
-	const { url } = req.body;
-
+	let { url } = req.body;
+	url = getUrlWithProtocol(url);
 	try {
 		const link = await createLink(url);
 		res.json(link);

@@ -7,13 +7,10 @@ let instance: MongoDB.MongoClient = new MongoDB.MongoClient(
 export const initializeMongoDBClient = async (): Promise<void> => {
 	try {
 		await instance.connect();
-		const indexinfo = await instance.db().collection("links").indexes();
-		if (indexinfo.length === 1) {
-			await instance
-				.db()
-				.collection("links")
-				.createIndex({ slug: 1 }, { unique: true, name: "slugIndex" });
-		}
+		await instance
+			.db()
+			.collection("links")
+			.createIndex({ slug: 1 }, { unique: true, name: "slugIndex" });
 		console.log("✅ Connected to MongoDB");
 	} catch (err) {
 		console.log(err);

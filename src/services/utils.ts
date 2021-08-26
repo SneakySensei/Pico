@@ -11,6 +11,14 @@ export const isCrawler = (userAgent: string = ""): boolean => {
 	);
 };
 
+export const getUrlWithProtocol = (url: string): string => {
+	if (/^https?:\/\//i.test(url)) {
+		return url;
+	} else {
+		return `https://${url}`;
+	}
+};
+
 export const generateSlug = (): string => {
 	const slugDict =
 		"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";

@@ -6,6 +6,8 @@ import {
 	updateDestination,
 } from "../services/admin.services";
 
+import { getUrlWithProtocol } from "../services/utils";
+
 export const handleLogin = async (
 	req: Request,
 	res: Response,
@@ -44,7 +46,9 @@ export const handleEditDestination = async (
 	next: NextFunction
 ) => {
 	const { slug } = req.params;
-	const { password, newDestination } = req.body;
+	let { password, newDestination } = req.body;
+
+	newDestination = getUrlWithProtocol(newDestination);
 
 	try {
 		const newLink = await updateDestination(slug, password, newDestination);
