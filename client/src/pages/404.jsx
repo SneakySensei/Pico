@@ -16,6 +16,7 @@ const PageContainer = styled.main`
 	}
 	article {
 		margin-top: 2rem;
+		text-align: center;
 	}
 `;
 
