@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import Transition from "react-transition-group/Transition";
 import { Prompt } from "react-router-dom";
@@ -23,6 +23,13 @@ import { urlRegEx } from "services/utils";
 import { ReactComponent as LinkGlyph } from "assets/link-glyph.svg";
 import { handleError } from "services/toasts";
 
+const onUnload = (e) => {
+	var confirmationMessage = "";
+
+	(e || window.event).returnValue = confirmationMessage; //Gecko + IE
+	return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
+};
+
 const Home = () => {
 	const [urlInput, setUrlInput] = useState({
 		value: "",
@@ -43,6 +50,12 @@ const Home = () => {
 
 	const toastTimeout = useRef(null);
 
+	useEffect(() => {
+		return () => {
+			window.removeEventListener("beforeunload", onUnload);
+		};
+	}, []);
+
 	const handleInputChange = (e) => {
 		setUrlInput({
 			value: e.target.value,
@@ -62,12 +75,7 @@ const Home = () => {
 				}));
 
 				// confirm tab close/reload
-				window.addEventListener("beforeunload", function (e) {
-					var confirmationMessage = "";
-
-					(e || window.event).returnValue = confirmationMessage; //Gecko + IE
-					return confirmationMessage; //Gecko + Webkit, Safari, Chrome etc.
-				});
+				window.addEventListener("beforeunload", onUnload);
 			})
 			.catch((err) => {
 				handleError(err);
@@ -117,7 +125,7 @@ const Home = () => {
 			/>
 			<HomeContainer>
 				<Header />
-				<main>
+				<main className="home-section">
 					<CreateLinkInput
 						valule={urlInput.value}
 						loading={shortUrl.loading}

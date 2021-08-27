@@ -6,6 +6,7 @@ import ErrorPage from "./pages/404";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import HowToUse from "components/shared/HowToUse";
 
 const GlobalStyles = createGlobalStyle`
 	*, ::before, ::after {
@@ -17,23 +18,28 @@ const GlobalStyles = createGlobalStyle`
     margin: 0;
     color: #EFEFEF;
 		background-color: #121013;
+
+		&.modal-open{
+			overflow: hidden;
+		}
 		
-		::-webkit-scrollbar {
+	}
+
+	::-webkit-scrollbar {
 			width: 2px;
-		}
+	}
 
-		::-webkit-scrollbar *{
-			background: transparent;
-		}
-		
-		::-webkit-scrollbar-thumb {
-			all: unset;
-			background-color: #efefef;
-			transition: all 200ms ease;
+	::-webkit-scrollbar *{
+		background: transparent;
+	}
+	
+	::-webkit-scrollbar-thumb {
+		all: unset;
+		background-color: #efefef;
+		transition: all 200ms ease;
 
-			&:hover{
-				background-color: #CC208E;
-			}
+		&:hover{
+			background-color: #CC208E;
 		}
 	}
 
@@ -60,6 +66,7 @@ function App() {
 					</Route>
 				</Switch>
 			</Router>
+			<HowToUse />
 			<ToastContainer />
 		</>
 	);

@@ -5,7 +5,7 @@ export const HomeContainer = styled.main`
 	display: flex;
 	flex-direction: column;
 
-	main {
+	.home-section {
 		flex: 1;
 		padding: 0 1.5rem;
 		display: flex;
