@@ -4,6 +4,7 @@ dotenvConfig({ debug: true });
 import express from "express";
 import path from "path";
 import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 import { initializeMongoDBClient } from "./db/mongodb";
 
@@ -22,8 +23,24 @@ app.use((req, res, next) => {
 	next();
 });
 
+// Limits requests by the second
+const apiLimiterSeconds = rateLimit({
+	windowMs: 1000,
+	max: process.env.NODE_ENV !== "development" ? 0 : 3,
+	message:
+		"Whoah slow down! Pico cannot handle that many requests. Please try after some time.",
+});
+
+// Limits requests by the hour
+const apiLimiterMinutes = rateLimit({
+	windowMs: 1 * 60 * 60 * 1000,
+	max: process.env.NODE_ENV !== "development" ? 0 : 16,
+	message:
+		"Whoah slow down! Pico cannot handle that many requests. Please try again in an hour.",
+});
+
 // NOTE /api routes
-app.use("/api", cors(), homeRoutes);
+app.use("/api", apiLimiterSeconds, apiLimiterMinutes, homeRoutes);
 app.use("/api/admin", cors(), adminRoutes);
 
 // NOTE /:slug route
