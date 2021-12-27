@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+// import path from "path";
 
 export interface ApiError extends Error {
 	message: string;
@@ -35,12 +36,15 @@ export const errorHandler = (
 	next: NextFunction
 ) => {
 	if (err.httpStatus) {
-		if (
-			err.httpStatus === errors.HOME_LINK_NOT_FOUND.httpStatus &&
-			err.message === errors.HOME_LINK_NOT_FOUND.message
-		) {
-			// TODO return redirect to react 404 page.
-		}
+		// NOTE return redirect to react 404 page.
+		// if (
+		// 	err.httpStatus === errors.HOME_LINK_NOT_FOUND.httpStatus &&
+		// 	err.message === errors.HOME_LINK_NOT_FOUND.message
+		// ) {
+		// 	return res.sendFile(
+		// 		path.join(__dirname, "..", "..", "client", "build", "index.html")
+		// 	);
+		// }
 		res.status(err.httpStatus).json({
 			success: false,
 			error: err.message,

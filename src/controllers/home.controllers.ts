@@ -69,6 +69,7 @@ export const handleLinkVisit = async (
 			res.status(404).send("404 Link not found!");
 		}
 	} catch (err) {
+		// NOTE Handle 404 error on the frontend
 		next("route");
 	}
 };

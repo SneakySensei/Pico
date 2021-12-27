@@ -39,7 +39,7 @@ const DashboardContainer = styled.main`
 			line-height: 1;
 			margin: 0;
 			text-align: center;
-			/* TODO edit media queries */
+
 			@media screen and (max-width: 640px) {
 				font-size: 58pt;
 			}

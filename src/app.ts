@@ -38,7 +38,7 @@ app.get("*", function (req, res) {
 });
 // }
 
-// TODO Error handler
+// NOTE Error handler
 app.use(errorHandler);
 
 Promise.all([initializeMongoDBClient()])
