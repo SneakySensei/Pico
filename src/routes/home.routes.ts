@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { ObjectId } from "mongodb";
 import * as yup from "yup";
+import rateLimit from "express-rate-limit";
 
 import {
 	handleShrinkUrl,
@@ -29,8 +30,26 @@ const handleEnableAnalyticsSchema = yup.object().shape({
 		),
 });
 
+// Limits requests by the second on production
+const apiLimiterSeconds = rateLimit({
+	windowMs: 1000,
+	max: process.env.NODE_ENV !== "development" ? 0 : 2,
+	message:
+		"Whoah slow down! Pico cannot handle that many requests. Please try after some time.",
+});
+
+// Limits requests by the hour on production
+const apiLimiterMinutes = rateLimit({
+	windowMs: 1 * 60 * 60 * 1000,
+	max: process.env.NODE_ENV !== "development" ? 0 : 5,
+	message:
+		"Whoah slow down! Pico cannot handle that many requests. Please try again in an hour.",
+});
+
 router.post(
 	"/shrinkurl",
+	apiLimiterSeconds,
+	apiLimiterMinutes,
 	validateRequest("body", handleShrinkUrlSchema),
 	handleShrinkUrl
 );
