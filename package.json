@@ -4,7 +4,7 @@
 	"description": "Shorten your URLs, but with more control.",
 	"main": "app.js",
 	"scripts": {
-		"prestart": "tsc -p .",
+		"prestart": "npm i && tsc -p .",
 		"start": "node dist/app.js",
 		"dev": "tsc-watch --onSuccess \"node ./dist/app.js\""
 	},

@@ -1,7 +1,7 @@
 {
 	"name": "pico-client",
 	"version": "0.1.0",
-	"proxy": "https://pico.snehil.dev",
+	"proxy": "http://localhost:3001",
 	"private": true,
 	"dependencies": {
 		"@testing-library/jest-dom": "^5.11.4",
@@ -31,6 +31,7 @@
 	},
 	"scripts": {
 		"start": "react-scripts start",
+		"prebuild": "npm i",
 		"build": "react-scripts --max_old_space_size=4096 build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject"

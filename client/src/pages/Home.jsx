@@ -64,6 +64,7 @@ const Home = () => {
 	};
 
 	const handleShrink = (e) => {
+		if (!urlInput.valid) return;
 		setShortUrl((shortUrl) => ({ ...shortUrl, loading: true }));
 		axios
 			.post("/api/shrinkurl", { url: urlInput.value })
