@@ -93,7 +93,6 @@ const Home = () => {
 		axios
 			.put("/api/enableanalytics", { linkId: shortUrl.data._id })
 			.then((res) => {
-				// console.log(res.data);
 				setShortUrl((shortUrl) => ({
 					...shortUrl,
 					loadingAdministration: false,
@@ -128,7 +127,7 @@ const Home = () => {
 				<Header />
 				<main className="home-section">
 					<CreateLinkInput
-						valule={urlInput.value}
+						value={urlInput.value}
 						loading={shortUrl.loading}
 						shortUrl={shortUrl.data}
 						onChange={handleInputChange}

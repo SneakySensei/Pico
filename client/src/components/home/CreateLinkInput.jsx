@@ -86,7 +86,7 @@ const InputContainer = styled.div`
 const dict = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 
 const CreateLinkInput = ({
-	url,
+	value,
 	onChange,
 	onSubmit,
 	shortUrl,
@@ -95,7 +95,6 @@ const CreateLinkInput = ({
 }) => {
 	const interval = useRef(null);
 	const inputRef = useRef(null);
-
 	// NOTE COOL HACKER ANIMATION 🔥🔥🔥
 	useEffect(() => {
 		if (!loading) {
@@ -137,6 +136,8 @@ const CreateLinkInput = ({
 						clearInterval(interval.current);
 					}
 				}, 70);
+			} else {
+				inputRef.current.value = value ?? "";
 			}
 		} else {
 			// Animation starts
@@ -173,7 +174,13 @@ const CreateLinkInput = ({
 			<input
 				ref={inputRef}
 				disabled={shortUrl !== null}
-				value={url}
+				value={
+					shortUrl !== null
+						? (window.location.hostname === "localhost"
+								? "pico.snehil.dev/"
+								: `${window.location.host}/`) + shortUrl.slug
+						: value
+				}
 				onChange={onChange}
 				onKeyDown={(e) => {
 					if (e.key === "Enter") {
