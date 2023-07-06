@@ -28,7 +28,8 @@
     "express-rate-limit": "^5.5.1",
     "mongodb": "^4.0.1",
     "nanoid": "^3.1.23",
-    "yup": "^0.32.9"
+    "yup": "^0.32.9",
+    "typescript": "^4.3.5"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -40,7 +41,6 @@
     "@types/nanoid": "^3.0.0",
     "@types/node": "^16.4.6",
     "@types/yup": "^0.29.13",
-    "tsc-watch": "^4.4.0",
-    "typescript": "^4.3.5"
+    "tsc-watch": "^4.4.0"
   }
 }
