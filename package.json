@@ -4,7 +4,7 @@
   "description": "Shorten your URLs, but with more control.",
   "main": "app.js",
   "scripts": {
-    "prebuild": "npm i",
+    "prebuild": "npm install --production=false",
     "build": "tsc -p . && cd client && npm run build",
     "start": "node dist/app.js",
     "dev": "tsc-watch --onSuccess \"node ./dist/app.js\""
@@ -28,8 +28,7 @@
     "express-rate-limit": "^5.5.1",
     "mongodb": "^4.0.1",
     "nanoid": "^3.1.23",
-    "yup": "^0.32.9",
-    "typescript": "^4.3.5"
+    "yup": "^0.32.9"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
@@ -41,6 +40,7 @@
     "@types/nanoid": "^3.0.0",
     "@types/node": "^16.4.6",
     "@types/yup": "^0.29.13",
-    "tsc-watch": "^4.4.0"
+    "tsc-watch": "^4.4.0",
+    "typescript": "^4.3.5"
   }
 }
